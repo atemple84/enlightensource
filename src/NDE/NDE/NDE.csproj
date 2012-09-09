@@ -97,14 +97,6 @@
   <ItemGroup>
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
-    <Content Include="images\background.jpg" />
-    <Content Include="images\hax.png" />
-    <Content Include="images\little guy.png" />
-    <Content Include="images\LOL.png" />
-    <Content Include="images\n00b.png" />
-    <Content Include="images\roflcopter.png" />
-    <Content Include="images\screenshot level concept.jpg" />
-    <Content Include="images\troll.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NDEContent\NDEContent.contentproj">
