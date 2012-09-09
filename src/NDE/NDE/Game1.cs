@@ -18,6 +18,8 @@ namespace NDE
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        List<GhostSprite> players;
+        Texture2D background;
 
         public Game1()
         {
@@ -34,6 +36,7 @@ namespace NDE
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            players = new List<GhostSprite>();
 
             base.Initialize();
         }
@@ -48,6 +51,10 @@ namespace NDE
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            background = Content.Load<Texture2D>("background");
+            GhostSprite dummyPlayer = new GhostSprite();
+            dummyPlayer.LoadContent(Content, "little guy");
+            players.Add(dummyPlayer);
         }
 
         /// <summary>
@@ -67,7 +74,7 @@ namespace NDE
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
 
             // TODO: Add your update logic here
@@ -84,6 +91,13 @@ namespace NDE
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            spriteBatch.Begin();
+            spriteBatch.Draw(background, GraphicsDevice.Viewport.Bounds, Color.White);
+            foreach (GhostSprite curPlayer in players)
+            {
+                spriteBatch.Draw(curPlayer.getTexture(), curPlayer.position, null, curPlayer.color, curPlayer.rotation, Vector2.Zero, curPlayer.scale, SpriteEffects.None, 0f);
+            }
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }

@@ -72,11 +72,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="screenshot level concept.jpg">
-      <Name>screenshot level concept</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="troll.png">
       <Name>troll</Name>
       <Importer>TextureImporter</Importer>
