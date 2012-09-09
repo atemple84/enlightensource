@@ -3,7 +3,7 @@ bin
 obj
 *.suo
 *.user
-*.cache
+*.cachefile
 
 # mstest test results
 TestResults
