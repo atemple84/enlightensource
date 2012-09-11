@@ -13,7 +13,7 @@ namespace NDE
         // Sprite properties
         private Texture2D myTexture;
         public Vector2 position = new Vector2(0, 0);
-        public float scale = 0.15f;
+        public float scale = 0.10f;
         public float rotation = 0f;
         public Color color = Color.White;
 
