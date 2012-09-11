@@ -18,8 +18,8 @@ namespace NDE
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        List<GhostSprite> players;
-        Texture2D background;
+        List<PlayerSprite> players;
+        Sprite background;
 
         public Game1()
         {
@@ -36,7 +36,8 @@ namespace NDE
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            players = new List<GhostSprite>();
+            players = new List<PlayerSprite>();
+            background = new Sprite();
 
             base.Initialize();
         }
@@ -51,9 +52,9 @@ namespace NDE
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            background = Content.Load<Texture2D>("background");
-            GhostSprite dummyPlayer = new GhostSprite();
-            dummyPlayer.LoadContent(Content, "little guy");
+            background.LoadContent(Content, "background");
+            PlayerSprite dummyPlayer = new PlayerSprite();
+            dummyPlayer.LoadContent(Content);
             players.Add(dummyPlayer);
         }
 
@@ -92,10 +93,10 @@ namespace NDE
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            spriteBatch.Draw(background, GraphicsDevice.Viewport.Bounds, Color.White);
-            foreach (GhostSprite curPlayer in players)
+            spriteBatch.Draw(background.getTexture(), GraphicsDevice.Viewport.Bounds, Color.White);
+            foreach (PlayerSprite curPlayer in players)
             {
-                spriteBatch.Draw(curPlayer.getTexture(), curPlayer.position, null, curPlayer.color, curPlayer.rotation, Vector2.Zero, curPlayer.scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(curPlayer.getTexture(), curPlayer.position, curPlayer.getArea(), curPlayer.color, curPlayer.rotation, Vector2.Zero, curPlayer.scale, SpriteEffects.None, 0f);
             }
             spriteBatch.End();
 
