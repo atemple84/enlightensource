@@ -33,5 +33,10 @@ namespace NDE
         {
             return mySize;
         }
+
+        protected void Update(GameTime gametime, Vector2 speed, Vector2 direction)
+        {
+            position += direction * speed * (float)gametime.ElapsedGameTime.TotalSeconds;
+        }
     }
 }

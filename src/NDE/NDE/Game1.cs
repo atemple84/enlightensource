@@ -79,6 +79,8 @@ namespace NDE
                 this.Exit();
 
             // TODO: Add your update logic here
+            foreach (PlayerSprite curPlayer in players)
+                curPlayer.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -95,9 +97,7 @@ namespace NDE
             spriteBatch.Begin();
             spriteBatch.Draw(background.getTexture(), GraphicsDevice.Viewport.Bounds, Color.White);
             foreach (PlayerSprite curPlayer in players)
-            {
                 spriteBatch.Draw(curPlayer.getTexture(), curPlayer.position, curPlayer.getArea(), curPlayer.color, curPlayer.rotation, Vector2.Zero, curPlayer.scale, SpriteEffects.None, 0f);
-            }
             spriteBatch.End();
 
             base.Draw(gameTime);
