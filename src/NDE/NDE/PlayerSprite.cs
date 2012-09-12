@@ -15,6 +15,8 @@ namespace NDE
         Vector2 JUMP_SPEED = new Vector2(1200, 1200);
         Vector2 FALL_SPEED = new Vector2(200, 200);
         const int MAX_FALL_SPEED = 1600;
+        float myGametimeFraction;
+        bool myFirstJump = false;
 
         private Vector2 myDirection = Vector2.Zero, mySpeed = Vector2.Zero, myStartingPosition = Vector2.Zero;
         private KeyboardState myPrevKeyboardState;
@@ -29,7 +31,7 @@ namespace NDE
         public void LoadContent(ContentManager theContentManager)
         {
             scale = 0.15f;
-            position = new Vector2(0, 200);
+            position = new Vector2(15, 200);
             LoadContent(theContentManager, "little guy");
         }
 
@@ -38,6 +40,7 @@ namespace NDE
             KeyboardState currentKeyboardState = Keyboard.GetState();
             GamePadState currentPadState = GamePad.GetState(PlayerIndex.One);
 
+            myGametimeFraction = (float)theGameTime.ElapsedGameTime.TotalSeconds;
             UpdateJump(currentKeyboardState, currentPadState);
 
             myPrevKeyboardState = currentKeyboardState;
@@ -71,12 +74,14 @@ namespace NDE
                 }
 
                 // Back to starting position. Stop jump
-                if (position.Y > myStartingPosition.Y)
+                if ((!myFirstJump && myStartingPosition.Y - position.Y < (mySpeed.Y * myGametimeFraction)) ||
+                    position.Y > myStartingPosition.Y)
                 {
                     position.Y = myStartingPosition.Y;
                     myCurrentState = state.standing;
                     myDirection = Vector2.Zero;
                 }
+                myFirstJump = false;
             }
         }
 
@@ -89,6 +94,7 @@ namespace NDE
                 myStartingPosition = position;
                 myDirection.Y = MOVE_UP;
                 mySpeed = JUMP_SPEED;
+                myFirstJump = true;
             }
         }
     }

@@ -19,6 +19,7 @@ namespace NDE
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         List<PlayerSprite> players;
+        List<CollisionSprite> platforms;
         Sprite background;
 
         public Game1()
@@ -37,6 +38,7 @@ namespace NDE
         {
             // TODO: Add your initialization logic here
             players = new List<PlayerSprite>();
+            platforms = new List<CollisionSprite>();
             background = new Sprite();
 
             base.Initialize();
@@ -56,6 +58,10 @@ namespace NDE
             PlayerSprite dummyPlayer = new PlayerSprite();
             dummyPlayer.LoadContent(Content);
             players.Add(dummyPlayer);
+
+            CollisionSprite dummyPlatform = new CollisionSprite();
+            dummyPlatform.LoadContent(Content);
+            platforms.Add(dummyPlatform);
         }
 
         /// <summary>
@@ -96,6 +102,8 @@ namespace NDE
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             spriteBatch.Draw(background.getTexture(), GraphicsDevice.Viewport.Bounds, Color.White);
+            foreach (CollisionSprite curPlatform in platforms)
+                spriteBatch.Draw(curPlatform.getTexture(), curPlatform.position, curPlatform.getArea(), curPlatform.color, curPlatform.rotation, Vector2.Zero, curPlatform.scale, SpriteEffects.None, 0f);
             foreach (PlayerSprite curPlayer in players)
                 spriteBatch.Draw(curPlayer.getTexture(), curPlayer.position, curPlayer.getArea(), curPlayer.color, curPlayer.rotation, Vector2.Zero, curPlayer.scale, SpriteEffects.None, 0f);
             spriteBatch.End();
