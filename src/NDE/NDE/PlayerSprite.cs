@@ -12,8 +12,9 @@ namespace NDE
 {
     class PlayerSprite : Sprite
     {
-        const int MOVE_UP = -1;
-        const int MOVE_DOWN = 1;
+        Vector2 JUMP_SPEED = new Vector2(1200, 1200);
+        Vector2 FALL_SPEED = new Vector2(200, 200);
+        const int MAX_FALL_SPEED = 1600;
 
         private Vector2 myDirection = Vector2.Zero, mySpeed = Vector2.Zero, myStartingPosition = Vector2.Zero;
         private KeyboardState myPrevKeyboardState;
@@ -35,31 +36,41 @@ namespace NDE
         public void Update(GameTime theGameTime)
         {
             KeyboardState currentKeyboardState = Keyboard.GetState();
+            GamePadState currentPadState = GamePad.GetState(PlayerIndex.One);
 
-            UpdateJump(currentKeyboardState);
+            UpdateJump(currentKeyboardState, currentPadState);
 
             myPrevKeyboardState = currentKeyboardState;
 
             base.Update(theGameTime, mySpeed, myDirection);
         }
 
-        private void UpdateJump(KeyboardState curKeyboardState)
+        private void UpdateJump(KeyboardState curKeyboardState, GamePadState curPadState)
         {
             if (myCurrentState == state.standing)
             {
-                if (curKeyboardState.IsKeyDown(Keys.Space) == true && myPrevKeyboardState.IsKeyDown(Keys.Space) == false)
-                {
+                if ((curKeyboardState.IsKeyDown(Keys.Space) && !myPrevKeyboardState.IsKeyDown(Keys.Space)) ||
+                    curPadState.IsButtonDown(Buttons.A) && !GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.A))
                     Jump();
-                }
             }
 
             if (myCurrentState == state.jumping)
             {
-                if (myStartingPosition.Y - position.Y > 150)
-                {
+                // Top of jump. Change direction
+                if (mySpeed.Y <= 0)
                     myDirection.Y = MOVE_DOWN;
+
+                // Apply gravity on increments of 10
+                int positionDiff = ((int)(myStartingPosition.Y + 0.5) - (int)(position.Y + 0.5)) % 10;
+                if (positionDiff == 0 && mySpeed.Y < MAX_FALL_SPEED)
+                {
+                    // Apply gravity
+                    Vector2 newtonSpeed = FALL_SPEED * myDirection;
+                    newtonSpeed.X = newtonSpeed.Y;
+                    mySpeed += newtonSpeed;
                 }
 
+                // Back to starting position. Stop jump
                 if (position.Y > myStartingPosition.Y)
                 {
                     position.Y = myStartingPosition.Y;
@@ -73,10 +84,11 @@ namespace NDE
         {
             if (myCurrentState != state.jumping)
             {
+                // Apply speed and direction, and jumping state
                 myCurrentState = state.jumping;
                 myStartingPosition = position;
                 myDirection.Y = MOVE_UP;
-                mySpeed = new Vector2(120, 120);
+                mySpeed = JUMP_SPEED;
             }
         }
     }

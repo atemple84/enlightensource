@@ -10,6 +10,11 @@ namespace NDE
 {
     class Sprite
     {
+        protected const int MOVE_UP = -1;
+        protected int MOVE_DOWN = 1;
+        protected const int MOVE_LEFT = -1;
+        protected const int MOVE_RIGHT = 1;
+
         // Sprite properties
         protected Texture2D myTexture;
         public Vector2 position = new Vector2(0, 0);
