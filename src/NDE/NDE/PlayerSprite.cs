@@ -80,6 +80,7 @@ namespace NDE
                     position.Y = myStartingPosition.Y;
                     myCurrentState = state.standing;
                     myDirection = Vector2.Zero;
+                    //Game1
                 }
                 myFirstJump = false;
             }

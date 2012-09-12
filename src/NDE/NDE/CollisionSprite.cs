@@ -17,6 +17,12 @@ namespace NDE
         }
         collosionType myCollisionType = collosionType.platform;
         Random randomObjSelector = new Random();
+        private int myViewportWidth;
+
+        public CollisionSprite(int viewportWidth)
+        {
+            myViewportWidth = viewportWidth + 150;
+        }
 
         public void LoadContent(ContentManager theContentManager)
         {
@@ -26,6 +32,16 @@ namespace NDE
             {
                 LoadContent(theContentManager, "platform_gold" + randomObjSelector.Next(1, 4).ToString());
             }
+        }
+
+        public void Update(GameTime theGameTime)
+        {
+            Vector2 aDirection = new Vector2(-1, 0);
+            Vector2 aSpeed = new Vector2(160, 0);
+            if (position.X < -150)
+                position.X = myViewportWidth;
+
+            base.Update(theGameTime, aSpeed, aDirection);
         }
     }
 }
