@@ -43,5 +43,9 @@ namespace NDE
 
             base.Update(theGameTime, aSpeed, aDirection);
         }
+
+        protected override void detectCollision()
+        {
+        }
     }
 }

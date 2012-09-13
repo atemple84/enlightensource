@@ -26,7 +26,7 @@ namespace NDE
         public void LoadContent(ContentManager theContentManager, string spriteName)
         {
             myTexture = theContentManager.Load<Texture2D>(spriteName);
-            mySize = new Rectangle(0, 0, (int)(myTexture.Width), (int)(myTexture.Height));
+            mySize = new Rectangle(0, 0, (int)(myTexture.Width * scale), (int)(myTexture.Height * scale));
         }
 
         public Texture2D getTexture()
@@ -34,7 +34,7 @@ namespace NDE
             return myTexture;
         }
 
-        public Rectangle getArea()
+        public Rectangle getSize()
         {
             return mySize;
         }
@@ -42,6 +42,9 @@ namespace NDE
         protected void Update(GameTime gametime, Vector2 speed, Vector2 direction)
         {
             position += direction * speed * (float)gametime.ElapsedGameTime.TotalSeconds;
+            detectCollision();
         }
+
+        protected virtual void detectCollision() {}
     }
 }

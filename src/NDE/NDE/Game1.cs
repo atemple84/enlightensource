@@ -57,7 +57,6 @@ namespace NDE
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        //static List<CollisionSprite> platforms;
         Sprite background;
 
         // Video variables
@@ -67,12 +66,17 @@ namespace NDE
         // Keyboard states used to determine key presses
         KeyboardState currentKeyboardState;
         KeyboardState previousKeyboardState;
+        GamePadState currentGamePadState;
+        GamePadState previousGamePadState;
 
         // Set state of game
         State gameState = State.TITLE;
         
         // For generic text writing
         SpriteFont normalText;
+
+        static public Vector2 bottomPoint;
+        private Texture2D myBottomLine;
 
         public Game1()
         {
@@ -108,7 +112,7 @@ namespace NDE
             vPlayer.Play(titleVideo);
 
             background.LoadContent(Content, "background");
-            PlayerSprite dummyPlayer = new PlayerSprite();
+            PlayerSprite dummyPlayer = new PlayerSprite(PlayerIndex.One);
             dummyPlayer.LoadContent(Content);
             playerList.list().Add(dummyPlayer);
 
@@ -116,6 +120,10 @@ namespace NDE
             dummyPlatform.LoadContent(Content);
             platformList.list().Add(dummyPlatform);
             normalText = Content.Load<SpriteFont>("NormalText");
+
+            myBottomLine = new Texture2D(GraphicsDevice, 1, 1);
+            myBottomLine.SetData(new[] { Color.Black });
+            bottomPoint = new Vector2(0, GraphicsDevice.Viewport.Height - 20);
         }
 
         /// <summary>
@@ -134,34 +142,43 @@ namespace NDE
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            currentKeyboardState = Keyboard.GetState();
+            currentGamePadState = GamePad.GetState(PlayerIndex.One);
+
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (currentGamePadState.Buttons.Back == ButtonState.Pressed || currentKeyboardState.IsKeyDown(Keys.Escape))
                 this.Exit();
 
             // State transitions
-            if (currentKeyboardState.IsKeyDown(Keys.P) && gameState == State.RUNNING) { 
-                gameState = State.PAUSE; 
-            }
-
-            if (currentKeyboardState.IsKeyDown(Keys.R) && gameState == State.PAUSE)
+            switch (gameState)
             {
-                gameState = State.RUNNING;
+                case State.TITLE:
+                    if (currentKeyboardState.IsKeyDown(Keys.Enter) || currentGamePadState.IsButtonDown(Buttons.Start))
+                        gameState = State.RUNNING;
+                    break;
+                case State.RUNNING:
+                    if (currentKeyboardState.IsKeyDown(Keys.P) || currentGamePadState.IsButtonDown(Buttons.Start))
+                        gameState = State.PAUSE;
+                    else
+                    {
+                       foreach (CollisionSprite curPlatform in platformList.list())
+                            curPlatform.Update(gameTime);
+
+                        foreach (PlayerSprite curPlayer in playerList.list())
+                            curPlayer.Update(gameTime);
+                    }
+                    break;
+                case State.PAUSE:
+                    if (currentKeyboardState.IsKeyDown(Keys.R) || (currentGamePadState.IsButtonDown(Buttons.Start) && !previousGamePadState.IsButtonDown(Buttons.Start)))
+                        gameState = State.RUNNING;
+                    break;
+                default:
+                    break;
             }
 
-            if (currentKeyboardState.IsKeyDown(Keys.Enter)){ gameState = State.RUNNING; }
-
-            if (gameState == State.RUNNING)
-            {
-                foreach (CollisionSprite curPlatform in platformList.list())
-                    curPlatform.Update(gameTime);
-
-                foreach (PlayerSprite curPlayer in playerList.list())
-                    curPlayer.Update(gameTime);
-            }
-            
             // Save previous keyboard state
             previousKeyboardState = currentKeyboardState;
-            currentKeyboardState = Keyboard.GetState();
+            previousGamePadState = currentGamePadState;
 
             base.Update(gameTime);
         }
@@ -177,31 +194,25 @@ namespace NDE
             spriteBatch.Draw(background.getTexture(), GraphicsDevice.Viewport.Bounds, Color.White);
 
             if (gameState == State.TITLE)
-            {
                 spriteBatch.Draw(vPlayer.GetTexture(), GraphicsDevice.Viewport.Bounds, Color.White);
-            }
-
-            if (gameState == State.RUNNING)
+            else
             {
-                foreach (CollisionSprite curPlatform in platformList.list())
-                    spriteBatch.Draw(curPlatform.getTexture(), curPlatform.position, curPlatform.getArea(), curPlatform.color, curPlatform.rotation, Vector2.Zero, curPlatform.scale, SpriteEffects.None, 0f);
-                foreach (PlayerSprite curPlayer in playerList.list())
-                    spriteBatch.Draw(curPlayer.getTexture(), curPlayer.position, curPlayer.getArea(), curPlayer.color, curPlayer.rotation, Vector2.Zero, curPlayer.scale, SpriteEffects.None, 0f);
-            }
+                spriteBatch.Draw(myBottomLine, bottomPoint, null, Color.Black, 0, Vector2.Zero, new Vector2(GraphicsDevice.Viewport.Width, 1), SpriteEffects.None, 0);
 
-            if (gameState == State.PAUSE)
-            {
                 foreach (CollisionSprite curPlatform in platformList.list())
-                    spriteBatch.Draw(curPlatform.getTexture(), curPlatform.position, curPlatform.getArea(), curPlatform.color, curPlatform.rotation, Vector2.Zero, curPlatform.scale, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(curPlatform.getTexture(), curPlatform.position, null, curPlatform.color, curPlatform.rotation, Vector2.Zero, curPlatform.scale, SpriteEffects.None, 0f);
                 foreach (PlayerSprite curPlayer in playerList.list())
-                    spriteBatch.Draw(curPlayer.getTexture(), curPlayer.position, curPlayer.getArea(), curPlayer.color, curPlayer.rotation, Vector2.Zero, curPlayer.scale, SpriteEffects.None, 0f);
-                
-                Vector2 v1 = new Vector2(200, 100);
-                spriteBatch.DrawString(normalText, "Game Paused", v1, Color.White);
+                    spriteBatch.Draw(curPlayer.getTexture(), curPlayer.position, null, curPlayer.color, curPlayer.rotation, Vector2.Zero, curPlayer.scale, SpriteEffects.None, 0f);
+
+
+                if (gameState == State.PAUSE)
+                {
+                    Vector2 v1 = new Vector2(200, 100);
+                    spriteBatch.DrawString(normalText, "Game Paused", v1, Color.White);
+                }
             }
 
             spriteBatch.End();
-
             base.Draw(gameTime);
         }
     }

@@ -12,14 +12,14 @@ namespace NDE
 {
     class PlayerSprite : Sprite
     {
-        Vector2 JUMP_SPEED = new Vector2(1200, 1200);
-        Vector2 FALL_SPEED = new Vector2(200, 200);
-        const int MAX_FALL_SPEED = 1600;
-        float myGametimeFraction;
-        bool myFirstJump = false;
+        private Vector2 JUMP_SPEED = new Vector2(1200, 1200);
+        private Vector2 FALL_SPEED = new Vector2(200, 200);
+        private const int MAX_FALL_SPEED = 1600;
+        private PlayerIndex myPlayerIndex;
 
         private Vector2 myDirection = Vector2.Zero, mySpeed = Vector2.Zero, myStartingPosition = Vector2.Zero;
         private KeyboardState myPrevKeyboardState;
+        private GamePadState myPrevGamePadState;
 
         enum state
         {
@@ -28,22 +28,29 @@ namespace NDE
         }
         state myCurrentState = state.standing;
 
+        public PlayerSprite(PlayerIndex index)
+        {
+            myPlayerIndex = index;
+        }
+
         public void LoadContent(ContentManager theContentManager)
         {
             scale = 0.15f;
-            position = new Vector2(15, 200);
             LoadContent(theContentManager, "little guy");
+
+            // Set position after the size of the sprite has been made
+            position = new Vector2(15, 200);
         }
 
         public void Update(GameTime theGameTime)
         {
             KeyboardState currentKeyboardState = Keyboard.GetState();
-            GamePadState currentPadState = GamePad.GetState(PlayerIndex.One);
+            GamePadState currentPadState = GamePad.GetState(myPlayerIndex);
 
-            myGametimeFraction = (float)theGameTime.ElapsedGameTime.TotalSeconds;
             UpdateJump(currentKeyboardState, currentPadState);
 
             myPrevKeyboardState = currentKeyboardState;
+            myPrevGamePadState = currentPadState;
 
             base.Update(theGameTime, mySpeed, myDirection);
         }
@@ -53,7 +60,7 @@ namespace NDE
             if (myCurrentState == state.standing)
             {
                 if ((curKeyboardState.IsKeyDown(Keys.Space) && !myPrevKeyboardState.IsKeyDown(Keys.Space)) ||
-                    curPadState.IsButtonDown(Buttons.A) && !GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.A))
+                    curPadState.IsButtonDown(Buttons.A) && !myPrevGamePadState.IsButtonDown(Buttons.A))
                     Jump();
             }
 
@@ -72,16 +79,6 @@ namespace NDE
                     newtonSpeed.X = newtonSpeed.Y;
                     mySpeed += newtonSpeed;
                 }
-
-                // Back to starting position. Stop jump
-                if ((!myFirstJump && myStartingPosition.Y - position.Y < (mySpeed.Y * myGametimeFraction)) ||
-                    position.Y > myStartingPosition.Y)
-                {
-                    position.Y = myStartingPosition.Y;
-                    myCurrentState = state.standing;
-                    myDirection = Vector2.Zero;
-                }
-                myFirstJump = false;
             }
         }
 
@@ -94,7 +91,18 @@ namespace NDE
                 myStartingPosition = position;
                 myDirection.Y = MOVE_UP;
                 mySpeed = JUMP_SPEED;
-                myFirstJump = true;
+            }
+        }
+
+        protected override void detectCollision()
+        {
+            // Back to starting position. Stop jump
+            float curFeetPosition = position.Y + mySize.Height;
+            if(curFeetPosition > Game1.bottomPoint.Y)
+            {
+                position.Y = Game1.bottomPoint.Y - mySize.Height;
+                myCurrentState = state.standing;
+                myDirection = Vector2.Zero;
             }
         }
     }
