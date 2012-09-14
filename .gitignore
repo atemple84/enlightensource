@@ -4,6 +4,7 @@ obj
 *.suo
 *.user
 *.cachefile
+Thumbs.db
 
 # mstest test results
 TestResults
