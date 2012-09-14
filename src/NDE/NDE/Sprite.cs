@@ -8,12 +8,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace NDE
 {
-    class Sprite
+    abstract class Sprite
     {
-        protected const int MOVE_UP = -1;
-        protected int MOVE_DOWN = 1;
-        protected const int MOVE_LEFT = -1;
-        protected const int MOVE_RIGHT = 1;
+        protected const int MOVE_UP = -1, MOVE_DOWN = 1, MOVE_LEFT = -1, MOVE_RIGHT = 1;
 
         // Sprite properties
         protected Texture2D myTexture;
@@ -22,6 +19,12 @@ namespace NDE
         public float rotation = 0f;
         public Color color = Color.White;
         protected Rectangle mySize;
+        public bool repeat = true;
+
+        // Movement properties
+        protected int myViewportWidth;
+        protected Vector2 mySpeed = Vector2.Zero;
+        protected Vector2 myDirection = Vector2.Zero;
 
         public void LoadContent(ContentManager theContentManager, string spriteName)
         {
@@ -39,12 +42,18 @@ namespace NDE
             return mySize;
         }
 
-        protected void Update(GameTime gametime, Vector2 speed, Vector2 direction)
+        public virtual void Update(GameTime gametime)
         {
-            position += direction * speed * (float)gametime.ElapsedGameTime.TotalSeconds;
+            position += myDirection * mySpeed * (float)gametime.ElapsedGameTime.TotalSeconds;
+            if (repeat && position.X < -150)
+            {
+                position.X = myViewportWidth;
+                generateNewTexture();
+            }
             detectCollision();
         }
 
-        protected virtual void detectCollision() {}
+        protected virtual void generateNewTexture() {}
+        protected abstract void detectCollision();
     }
 }

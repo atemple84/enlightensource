@@ -14,20 +14,6 @@ namespace NDE
     /// <summary>
     /// Globals for the player and collision sprites
     /// </summary>
-    static class platformList
-    {
-        static List<CollisionSprite> platforms;
-        static platformList()
-        {
-            platforms = new List<CollisionSprite>();
-        }
-
-        public static List<CollisionSprite> list()
-        {
-            return platforms;
-        }
-    }
-
     static class playerList
     {
         static List<PlayerSprite> players;
@@ -57,7 +43,6 @@ namespace NDE
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Sprite background;
 
         // Video variables
         VideoPlayer vPlayer;
@@ -76,7 +61,7 @@ namespace NDE
         SpriteFont normalText;
 
         static public Vector2 bottomPoint;
-        private Texture2D myBottomLine;
+        Level currentLevel;
 
         public Game1()
         {
@@ -92,7 +77,7 @@ namespace NDE
         /// </summary>
         protected override void Initialize()
         {
-            background = new Sprite();
+            currentLevel = new Level(GraphicsDevice);
 
             base.Initialize();
         }
@@ -111,18 +96,7 @@ namespace NDE
             vPlayer.IsLooped = true;
             vPlayer.Play(titleVideo);
 
-            background.LoadContent(Content, "background");
-            PlayerSprite dummyPlayer = new PlayerSprite(PlayerIndex.One);
-            dummyPlayer.LoadContent(Content);
-            playerList.list().Add(dummyPlayer);
-
-            CollisionSprite dummyPlatform = new CollisionSprite(GraphicsDevice.Viewport.Width);
-            dummyPlatform.LoadContent(Content);
-            platformList.list().Add(dummyPlatform);
             normalText = Content.Load<SpriteFont>("NormalText");
-
-            myBottomLine = new Texture2D(GraphicsDevice, 1, 1);
-            myBottomLine.SetData(new[] { Color.Black });
             bottomPoint = new Vector2(0, GraphicsDevice.Viewport.Height - 20);
         }
 
@@ -154,18 +128,32 @@ namespace NDE
             {
                 case State.TITLE:
                     if (currentKeyboardState.IsKeyDown(Keys.Enter) || currentGamePadState.IsButtonDown(Buttons.Start))
+                    {
+                        // Initialize all the levels
                         gameState = State.RUNNING;
+                        initLevels();
+                    }
                     break;
                 case State.RUNNING:
                     if (currentKeyboardState.IsKeyDown(Keys.P) || currentGamePadState.IsButtonDown(Buttons.Start))
                         gameState = State.PAUSE;
                     else
                     {
-                       foreach (CollisionSprite curPlatform in platformList.list())
-                            curPlatform.Update(gameTime);
+                        // Check the level status
+                        if (currentLevel.runningState == CompletionState.complete)
+                        {
+                            currentLevel = currentLevel.nextLevel;
+                            if (currentLevel == null)   // YOU WIN!!!  Game Over
+                                this.Exit();
+                        }
 
-                        foreach (PlayerSprite curPlayer in playerList.list())
-                            curPlayer.Update(gameTime);
+                        // Begin loading the new level
+                        if (currentLevel.loadedState == LoadingState.uninitialized)
+                            currentLevel.LoadLevel(Content);
+
+                        // Update the current level
+                        else
+                            currentLevel.Update(gameTime);
                     }
                     break;
                 case State.PAUSE:
@@ -191,20 +179,13 @@ namespace NDE
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
-            spriteBatch.Draw(background.getTexture(), GraphicsDevice.Viewport.Bounds, Color.White);
 
             if (gameState == State.TITLE)
                 spriteBatch.Draw(vPlayer.GetTexture(), GraphicsDevice.Viewport.Bounds, Color.White);
             else
             {
-                spriteBatch.Draw(myBottomLine, bottomPoint, null, Color.Black, 0, Vector2.Zero, new Vector2(GraphicsDevice.Viewport.Width, 1), SpriteEffects.None, 0);
-
-                foreach (CollisionSprite curPlatform in platformList.list())
-                    spriteBatch.Draw(curPlatform.getTexture(), curPlatform.position, null, curPlatform.color, curPlatform.rotation, Vector2.Zero, curPlatform.scale, SpriteEffects.None, 0f);
-                foreach (PlayerSprite curPlayer in playerList.list())
-                    spriteBatch.Draw(curPlayer.getTexture(), curPlayer.position, null, curPlayer.color, curPlayer.rotation, Vector2.Zero, curPlayer.scale, SpriteEffects.None, 0f);
-
-
+                // Draw items on current level
+                currentLevel.Draw(spriteBatch);
                 if (gameState == State.PAUSE)
                 {
                     Vector2 v1 = new Vector2(200, 100);
@@ -214,6 +195,17 @@ namespace NDE
 
             spriteBatch.End();
             base.Draw(gameTime);
+        }
+
+        /// <summary>
+        /// Initializes all the levels on disk. Also loads the first level
+        /// </summary>
+        private void initLevels()
+        {
+            // TODO parse directory of levels
+            currentLevel.levelId = "level1.xml";
+
+            currentLevel.LoadLevel(Content);
         }
     }
 }

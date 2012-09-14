@@ -12,38 +12,35 @@ namespace NDE
     {
         enum collosionType
         {
-            platform,
-            obstacle
+            PLATFORM,
+            OBSTACLE
         }
-        collosionType myCollisionType = collosionType.platform;
+        collosionType myCollisionType = collosionType.PLATFORM;
         Random randomObjSelector = new Random();
-        private int myViewportWidth;
+        private ContentManager myContentManager;
 
         public CollisionSprite(int viewportWidth)
         {
             myViewportWidth = viewportWidth + 150;
+            myDirection = new Vector2(-1, 0);
+            mySpeed = new Vector2(160, 0);
         }
 
         public void LoadContent(ContentManager theContentManager)
         {
+            myContentManager = theContentManager;
             scale = 0.6f;
             position = new Vector2(0, 265);
-            if (myCollisionType == collosionType.platform)
+            if (myCollisionType == collosionType.PLATFORM)
             {
-                LoadContent(theContentManager, "platform_gold" + randomObjSelector.Next(1, 4).ToString());
+                LoadContent(myContentManager, "platform_gold" + randomObjSelector.Next(1, 4).ToString());
             }
         }
 
-        public void Update(GameTime theGameTime)
+        protected override void generateNewTexture()
         {
-            Vector2 aDirection = new Vector2(-1, 0);
-            Vector2 aSpeed = new Vector2(160, 0);
-            if (position.X < -150)
-                position.X = myViewportWidth;
-
-            base.Update(theGameTime, aSpeed, aDirection);
+            LoadContent(myContentManager, "platform_gold" + randomObjSelector.Next(1, 4).ToString());
         }
-
         protected override void detectCollision()
         {
         }

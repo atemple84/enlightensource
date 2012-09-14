@@ -17,16 +17,16 @@ namespace NDE
         private const int MAX_FALL_SPEED = 1600;
         private PlayerIndex myPlayerIndex;
 
-        private Vector2 myDirection = Vector2.Zero, mySpeed = Vector2.Zero, myStartingPosition = Vector2.Zero;
+        private Vector2 myStartingPosition = Vector2.Zero;
         private KeyboardState myPrevKeyboardState;
         private GamePadState myPrevGamePadState;
 
         enum state
         {
-            standing,
-            jumping
+            STANDING,
+            JUMPING
         }
-        state myCurrentState = state.standing;
+        state myCurrentState = state.STANDING;
 
         public PlayerSprite(PlayerIndex index)
         {
@@ -42,7 +42,7 @@ namespace NDE
             position = new Vector2(15, 200);
         }
 
-        public void Update(GameTime theGameTime)
+        public override void Update(GameTime theGameTime)
         {
             KeyboardState currentKeyboardState = Keyboard.GetState();
             GamePadState currentPadState = GamePad.GetState(myPlayerIndex);
@@ -52,19 +52,19 @@ namespace NDE
             myPrevKeyboardState = currentKeyboardState;
             myPrevGamePadState = currentPadState;
 
-            base.Update(theGameTime, mySpeed, myDirection);
+            base.Update(theGameTime);
         }
 
         private void UpdateJump(KeyboardState curKeyboardState, GamePadState curPadState)
         {
-            if (myCurrentState == state.standing)
+            if (myCurrentState == state.STANDING)
             {
                 if ((curKeyboardState.IsKeyDown(Keys.Space) && !myPrevKeyboardState.IsKeyDown(Keys.Space)) ||
                     curPadState.IsButtonDown(Buttons.A) && !myPrevGamePadState.IsButtonDown(Buttons.A))
                     Jump();
             }
 
-            if (myCurrentState == state.jumping)
+            if (myCurrentState == state.JUMPING)
             {
                 // Top of jump. Change direction
                 if (mySpeed.Y <= 0)
@@ -84,10 +84,10 @@ namespace NDE
 
         private void Jump()
         {
-            if (myCurrentState != state.jumping)
+            if (myCurrentState != state.JUMPING)
             {
                 // Apply speed and direction, and jumping state
-                myCurrentState = state.jumping;
+                myCurrentState = state.JUMPING;
                 myStartingPosition = position;
                 myDirection.Y = MOVE_UP;
                 mySpeed = JUMP_SPEED;
@@ -101,7 +101,7 @@ namespace NDE
             if(curFeetPosition > Game1.bottomPoint.Y)
             {
                 position.Y = Game1.bottomPoint.Y - mySize.Height;
-                myCurrentState = state.standing;
+                myCurrentState = state.STANDING;
                 myDirection = Vector2.Zero;
             }
         }
