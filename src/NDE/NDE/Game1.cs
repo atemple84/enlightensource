@@ -130,6 +130,7 @@ namespace NDE
                     if (currentKeyboardState.IsKeyDown(Keys.Enter) || currentGamePadState.IsButtonDown(Buttons.Start))
                     {
                         // Initialize all the levels
+                        vPlayer.Pause();
                         gameState = State.RUNNING;
                         initLevels();
                     }
@@ -180,8 +181,15 @@ namespace NDE
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
 
-            if (gameState == State.TITLE)
+            if (gameState == State.TITLE || currentLevel.loadedState == LoadingState.loading)
+            {
                 spriteBatch.Draw(vPlayer.GetTexture(), GraphicsDevice.Viewport.Bounds, Color.White);
+                if (currentLevel.loadedState == LoadingState.loading)
+                {
+                    Vector2 v1 = new Vector2(200, 300);
+                    spriteBatch.DrawString(normalText, "Loading Level...", v1, Color.White);
+                }
+            }
             else
             {
                 // Draw items on current level

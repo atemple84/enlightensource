@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
@@ -28,7 +29,10 @@ namespace NDE
 
         private Texture2D myBlankTexture;
         private GraphicsDevice myGraphicsDevice;
+        private ContentManager myContent;
+
         private List<Sprite> myLevelSprites = new List<Sprite>();
+        static readonly object locker = new object();
 
         public Level nextLevel = null;
         public string levelId;
@@ -51,30 +55,42 @@ namespace NDE
         /// <param name="theContent"></param>
         public void LoadLevel(ContentManager theContent)
         {
-            // Border
+            // Start level loading thread
             loadedState = LoadingState.loading;
+            myContent = theContent;
+            Thread loadLevelThread = new Thread(LoadingThread);
+            loadLevelThread.Start();
+        }
+
+        void LoadingThread()
+        {
+            // Border
             myBlankTexture = new Texture2D(myGraphicsDevice, 1, 1);
             myBlankTexture.SetData(new[] { Color.White });
 
             // TODO load level by parsing XML
 
-            // TODO Load background(s)
-            BackgroundSprite mainBackground = new BackgroundSprite(myGraphicsDevice.Viewport.Width);
-            mainBackground.repeat = false;
-            mainBackground.LoadContent(theContent, "background");
-            myLevelSprites.Add(mainBackground);
+            lock (locker)
+            {
+                myLevelSprites.Clear();
+                // TODO Load background(s)
+                BackgroundSprite mainBackground = new BackgroundSprite(myGraphicsDevice.Viewport.Width);
+                mainBackground.repeat = false;
+                mainBackground.LoadContent(myContent, "background");
+                myLevelSprites.Add(mainBackground);
 
-            // Load collision platforms
-            CollisionSprite dummyPlatform = new CollisionSprite(myGraphicsDevice.Viewport.Width);
-            dummyPlatform.LoadContent(theContent);
-            myLevelSprites.Add(dummyPlatform);
+                // Load collision platforms
+                CollisionSprite dummyPlatform = new CollisionSprite(myGraphicsDevice.Viewport.Width);
+                dummyPlatform.LoadContent(myContent);
+                myLevelSprites.Add(dummyPlatform);
 
-            // Load players
-            PlayerSprite dummyPlayer = new PlayerSprite(PlayerIndex.One);
-            dummyPlayer.LoadContent(theContent);
-            playerList.list().Add(dummyPlayer);
+                // Load players
+                PlayerSprite dummyPlayer = new PlayerSprite(PlayerIndex.One);
+                dummyPlayer.LoadContent(myContent);
+                playerList.list().Add(dummyPlayer);
 
-            loadedState = LoadingState.complete;
+                loadedState = LoadingState.complete;
+            }
         }
 
         public void Update(GameTime gameTime)
