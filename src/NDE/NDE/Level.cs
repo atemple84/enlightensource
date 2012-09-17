@@ -79,10 +79,13 @@ namespace NDE
                 mainBackground.LoadContent(myContent, "background");
                 myLevelSprites.Add(mainBackground);
 
-                // Load collision platforms
-                CollisionSprite dummyPlatform = new CollisionSprite(myGraphicsDevice.Viewport.Width);
+                // Load collision obstacles and platforms
+                CollisionSprite dummyPlatform = new CollisionSprite(myGraphicsDevice.Viewport.Width, collisionType.PLATFORM);
                 dummyPlatform.LoadContent(myContent);
+                CollisionSprite dummyObstacle = new CollisionSprite(myGraphicsDevice.Viewport.Width, collisionType.OBSTACLE);
+                dummyObstacle.LoadContent(myContent);
                 myLevelSprites.Add(dummyPlatform);
+                myLevelSprites.Add(dummyObstacle);
 
                 // Load players
                 PlayerSprite dummyPlayer = new PlayerSprite(PlayerIndex.One);

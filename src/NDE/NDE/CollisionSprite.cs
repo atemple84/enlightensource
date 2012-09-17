@@ -8,38 +8,60 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace NDE
 {
+    enum collisionType
+    {
+        PLATFORM,
+        OBSTACLE
+    }
+
     class CollisionSprite : Sprite
     {
-        enum collosionType
-        {
-            PLATFORM,
-            OBSTACLE
-        }
-        collosionType myCollisionType = collosionType.PLATFORM;
+        public collisionType myCollisionType = collisionType.PLATFORM;
         Random randomObjSelector = new Random();
         private ContentManager myContentManager;
 
-        public CollisionSprite(int viewportWidth)
+        public CollisionSprite(int viewportWidth, collisionType theCollisionType)
         {
             myViewportWidth = viewportWidth + 150;
             myDirection = new Vector2(-1, 0);
             mySpeed = new Vector2(160, 0);
+            myCollisionType = theCollisionType;
         }
 
         public void LoadContent(ContentManager theContentManager)
         {
             myContentManager = theContentManager;
-            scale = 0.6f;
-            position = new Vector2(0, 265);
-            if (myCollisionType == collosionType.PLATFORM)
+            switch (myCollisionType)
             {
-                LoadContent(myContentManager, "platform_gold" + randomObjSelector.Next(1, 4).ToString());
+                case collisionType.PLATFORM:
+                    scale = 0.6f;
+                    position = new Vector2(0, 265);
+                    LoadContent(myContentManager, "platform_gold" + randomObjSelector.Next(1, 4).ToString());
+                    break;
+                case collisionType.OBSTACLE:
+                    scale = 0.25f;
+                    color = Color.Red;
+                    position = new Vector2(175, 165);
+                    LoadContent(myContentManager, "LOL");
+                    break;
+                default:
+                    break;
             }
         }
 
         protected override void generateNewTexture()
         {
-            LoadContent(myContentManager, "platform_gold" + randomObjSelector.Next(1, 4).ToString());
+            switch (myCollisionType)
+            {
+                case collisionType.PLATFORM:
+                    LoadContent(myContentManager, "platform_gold" + randomObjSelector.Next(1, 4).ToString());
+                    break;
+                case collisionType.OBSTACLE:
+                    LoadContent(myContentManager, "LOL");
+                    break;
+                default:
+                    break;
+            }
         }
         protected override void detectCollision()
         {
