@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent>
+  <Asset Type="LevelDataTypes.LevelData">
+    <gameSpeed>200</gameSpeed>
+    <sprites>
+      <Item>
+        <textureName>platform_gold1</textureName>
+        <obstacleType>PLATFORM</obstacleType>
+      </Item>
+    </sprites>
+  </Asset>
+</XnaContent>

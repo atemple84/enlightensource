@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 
+using LevelDataTypes;
+
 namespace NDE
 {
     enum LoadingState
@@ -91,6 +93,8 @@ namespace NDE
                 PlayerSprite dummyPlayer = new PlayerSprite(PlayerIndex.One);
                 dummyPlayer.LoadContent(myContent);
                 playerList.list().Add(dummyPlayer);
+
+                LevelData levelData = myContent.Load<LevelData>("levels/dummyLevel");
 
                 loadedState = LoadingState.complete;
             }
