@@ -31,18 +31,10 @@ namespace NDE
         public PlayerSprite(PlayerIndex index)
         {
             myPlayerIndex = index;
-        }
-
-        public void LoadContent(ContentManager theContentManager)
-        {
-            scale = 0.15f;
-            LoadContent(theContentManager, "little guy");
-
-            // Set position after the size of the sprite has been made
             position = new Vector2(15, 200);
         }
 
-        public override void Update(GameTime theGameTime)
+        public override void Update(GameTime theGameTime, ContentManager theContent)
         {
             KeyboardState currentKeyboardState = Keyboard.GetState();
             GamePadState currentPadState = GamePad.GetState(myPlayerIndex);
@@ -52,7 +44,7 @@ namespace NDE
             myPrevKeyboardState = currentKeyboardState;
             myPrevGamePadState = currentPadState;
 
-            base.Update(theGameTime);
+            base.Update(theGameTime, theContent);
         }
 
         private void UpdateJump(KeyboardState curKeyboardState, GamePadState curPadState)
@@ -67,17 +59,17 @@ namespace NDE
             if (myCurrentState == state.JUMPING)
             {
                 // Top of jump. Change direction
-                if (mySpeed.Y <= 0)
+                if (speed.Y <= 0)
                     myDirection.Y = MOVE_DOWN;
 
                 // Apply gravity on increments of 10
                 int positionDiff = ((int)(myStartingPosition.Y + 0.5) - (int)(position.Y + 0.5)) % 10;
-                if (positionDiff == 0 && mySpeed.Y < MAX_FALL_SPEED)
+                if (positionDiff == 0 && speed.Y < MAX_FALL_SPEED)
                 {
                     // Apply gravity
                     Vector2 newtonSpeed = FALL_SPEED * myDirection;
                     newtonSpeed.X = newtonSpeed.Y;
-                    mySpeed += newtonSpeed;
+                    speed += newtonSpeed;
                 }
             }
         }
@@ -90,7 +82,7 @@ namespace NDE
                 myCurrentState = state.JUMPING;
                 myStartingPosition = position;
                 myDirection.Y = MOVE_UP;
-                mySpeed = JUMP_SPEED;
+                speed = JUMP_SPEED;
             }
         }
 

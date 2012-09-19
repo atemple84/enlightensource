@@ -32,6 +32,7 @@ namespace NDE
         private Texture2D myBlankTexture;
         private GraphicsDevice myGraphicsDevice;
         private ContentManager myContent;
+        private int myGamespeed;
 
         private List<Sprite> myLevelSprites = new List<Sprite>();
         static readonly object locker = new object();
@@ -49,6 +50,7 @@ namespace NDE
             myGraphicsDevice = theGraphicsDevice;
             loadedState = LoadingState.uninitialized;
             runningState = CompletionState.running;
+            myGamespeed = 0;
         }
 
         /// <summary>
@@ -78,23 +80,30 @@ namespace NDE
                 // TODO Load background(s)
                 BackgroundSprite mainBackground = new BackgroundSprite(myGraphicsDevice.Viewport.Width);
                 mainBackground.repeat = false;
-                mainBackground.LoadContent(myContent, "background");
+                mainBackground.spriteName = "background";
+                mainBackground.LoadContent(myContent);
                 myLevelSprites.Add(mainBackground);
 
-                // Load collision obstacles and platforms
-                CollisionSprite dummyPlatform = new CollisionSprite(myGraphicsDevice.Viewport.Width, collisionType.PLATFORM);
-                dummyPlatform.LoadContent(myContent);
-                CollisionSprite dummyObstacle = new CollisionSprite(myGraphicsDevice.Viewport.Width, collisionType.OBSTACLE);
-                dummyObstacle.LoadContent(myContent);
-                myLevelSprites.Add(dummyPlatform);
-                myLevelSprites.Add(dummyObstacle);
+                LevelData levelData = myContent.Load<LevelData>("levels/dummyLevel");
+                myGamespeed = levelData.gameSpeed;
+                foreach (SpriteData curSprite in levelData.sprites)
+                {
+                    CollisionSprite dummySprite = new CollisionSprite(myGraphicsDevice.Viewport.Width, (collisionType)curSprite.obstacleType);
+                    dummySprite.scale = curSprite.scale;
+                    dummySprite.spriteName = curSprite.textureName;
+                    dummySprite.color = curSprite.color;
+                    dummySprite.position = curSprite.position;
+                    dummySprite.speed = new Vector2(myGamespeed, 0);
+                    dummySprite.LoadContent(myContent);
+                    myLevelSprites.Add(dummySprite);
+                }
 
                 // Load players
                 PlayerSprite dummyPlayer = new PlayerSprite(PlayerIndex.One);
+                dummyPlayer.scale = 0.15f;
+                dummyPlayer.spriteName = "little guy";
                 dummyPlayer.LoadContent(myContent);
                 playerList.list().Add(dummyPlayer);
-
-                LevelData levelData = myContent.Load<LevelData>("levels/dummyLevel");
 
                 loadedState = LoadingState.complete;
             }
@@ -107,10 +116,10 @@ namespace NDE
 
             // Update all the level sprites for the level
             foreach (Sprite curSprite in myLevelSprites)
-                curSprite.Update(gameTime);
+                curSprite.Update(gameTime, myContent);
 
             foreach (PlayerSprite curPlayer in playerList.list())
-                curPlayer.Update(gameTime);
+                curPlayer.Update(gameTime, myContent);
         }
 
         public void Draw(SpriteBatch spriteBatch)

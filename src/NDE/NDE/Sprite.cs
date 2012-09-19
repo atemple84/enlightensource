@@ -13,20 +13,21 @@ namespace NDE
         protected const int MOVE_UP = -1, MOVE_DOWN = 1, MOVE_LEFT = -1, MOVE_RIGHT = 1;
 
         // Sprite properties
-        protected Texture2D myTexture;
         public Vector2 position = new Vector2(0, 0);
         public float scale = 1.0f;
         public float rotation = 0f;
         public Color color = Color.White;
-        protected Rectangle mySize;
         public bool repeat = true;
+        public Vector2 speed = Vector2.Zero;
+        public string spriteName;
 
-        // Movement properties
+        // protected properties
+        protected Texture2D myTexture;
         protected int myViewportWidth;
-        protected Vector2 mySpeed = Vector2.Zero;
         protected Vector2 myDirection = Vector2.Zero;
+        protected Rectangle mySize;
 
-        public void LoadContent(ContentManager theContentManager, string spriteName)
+        public void LoadContent(ContentManager theContentManager)
         {
             myTexture = theContentManager.Load<Texture2D>(spriteName);
             mySize = new Rectangle(0, 0, (int)(myTexture.Width * scale), (int)(myTexture.Height * scale));
@@ -42,18 +43,17 @@ namespace NDE
             return mySize;
         }
 
-        public virtual void Update(GameTime gametime)
+        public virtual void Update(GameTime gametime, ContentManager theContent)
         {
-            position += myDirection * mySpeed * (float)gametime.ElapsedGameTime.TotalSeconds;
+            position += myDirection * speed * (float)gametime.ElapsedGameTime.TotalSeconds;
             if (repeat && position.X < -150)
             {
                 position.X = myViewportWidth;
-                generateNewTexture();
+                LoadContent(theContent);
             }
             detectCollision();
         }
 
-        protected virtual void generateNewTexture() {}
         protected abstract void detectCollision();
     }
 }
