@@ -10,19 +10,25 @@ namespace NDE
     enum collisionType
     {
         PLATFORM,
-        OBSTACLE
+        OBSTACLE,
+        BACKGROUND
     }
 
-    class CollisionSprite : Sprite
+    class MovingSprite : Sprite
     {
         public collisionType myCollisionType = collisionType.PLATFORM;
-        Random randomObjSelector = new Random();
 
-        public CollisionSprite(int viewportWidth, collisionType theCollisionType)
+        public MovingSprite(int viewportWidth, collisionType theCollisionType)
         {
             myViewportWidth = viewportWidth + 150;
-            myDirection = new Vector2(-1, 0);
             myCollisionType = theCollisionType;
+        }
+
+        public void setSpeed(Vector2 speed)
+        {
+            mySpeed = speed;
+            if (speed != Vector2.Zero)
+                myDirection = new Vector2(-1, 0);
         }
 
         protected override void detectCollision()

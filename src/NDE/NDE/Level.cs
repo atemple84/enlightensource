@@ -32,7 +32,6 @@ namespace NDE
         private Texture2D myBlankTexture;
         private GraphicsDevice myGraphicsDevice;
         private ContentManager myContent;
-        private int myGamespeed;
 
         private List<Sprite> myLevelSprites = new List<Sprite>();
         static readonly object locker = new object();
@@ -50,7 +49,6 @@ namespace NDE
             myGraphicsDevice = theGraphicsDevice;
             loadedState = LoadingState.uninitialized;
             runningState = CompletionState.running;
-            myGamespeed = 0;
         }
 
         /// <summary>
@@ -72,28 +70,19 @@ namespace NDE
             myBlankTexture = new Texture2D(myGraphicsDevice, 1, 1);
             myBlankTexture.SetData(new[] { Color.White });
 
-            // TODO load level by parsing XML
-
+            // load level by parsing XML
             lock (locker)
             {
                 myLevelSprites.Clear();
-                // TODO Load background(s)
-                BackgroundSprite mainBackground = new BackgroundSprite(myGraphicsDevice.Viewport.Width);
-                mainBackground.repeat = false;
-                mainBackground.spriteName = "background";
-                mainBackground.LoadContent(myContent);
-                myLevelSprites.Add(mainBackground);
-
                 LevelData levelData = myContent.Load<LevelData>("levels/dummyLevel");
-                myGamespeed = levelData.gameSpeed;
                 foreach (SpriteData curSprite in levelData.sprites)
                 {
-                    CollisionSprite dummySprite = new CollisionSprite(myGraphicsDevice.Viewport.Width, (collisionType)curSprite.obstacleType);
+                    MovingSprite dummySprite = new MovingSprite(myGraphicsDevice.Viewport.Width, (collisionType)curSprite.obstacleType);
                     dummySprite.scale = curSprite.scale;
                     dummySprite.spriteName = curSprite.textureName;
                     dummySprite.color = curSprite.color;
                     dummySprite.position = curSprite.position;
-                    dummySprite.speed = new Vector2(myGamespeed, 0);
+                    dummySprite.setSpeed(curSprite.gameSpeed);
                     dummySprite.LoadContent(myContent);
                     myLevelSprites.Add(dummySprite);
                 }

@@ -18,7 +18,7 @@ namespace NDE
         public float rotation = 0f;
         public Color color = Color.White;
         public bool repeat = true;
-        public Vector2 speed = Vector2.Zero;
+        protected Vector2 mySpeed = Vector2.Zero;
         public string spriteName;
 
         // protected properties
@@ -45,7 +45,7 @@ namespace NDE
 
         public virtual void Update(GameTime gametime, ContentManager theContent)
         {
-            position += myDirection * speed * (float)gametime.ElapsedGameTime.TotalSeconds;
+            position += myDirection * mySpeed * (float)gametime.ElapsedGameTime.TotalSeconds;
             if (repeat && position.X < -150)
             {
                 position.X = myViewportWidth;

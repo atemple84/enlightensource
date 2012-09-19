@@ -9,7 +9,8 @@ namespace LevelDataTypes
     public enum collisionType
     {
         PLATFORM,
-        OBSTACLE
+        OBSTACLE,
+        BACKGROUND
     }
 
     public class SpriteData
@@ -19,5 +20,6 @@ namespace LevelDataTypes
         public float scale = 0.6f;
         public Color color = Color.White;
         public Vector2 position = new Vector2(0, 265);
+        public Vector2 gameSpeed = new Vector2(LevelData.gameSpeed, LevelData.gameSpeed);
     }
 }

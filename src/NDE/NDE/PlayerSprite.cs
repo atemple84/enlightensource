@@ -59,17 +59,17 @@ namespace NDE
             if (myCurrentState == state.JUMPING)
             {
                 // Top of jump. Change direction
-                if (speed.Y <= 0)
+                if (mySpeed.Y <= 0)
                     myDirection.Y = MOVE_DOWN;
 
                 // Apply gravity on increments of 10
                 int positionDiff = ((int)(myStartingPosition.Y + 0.5) - (int)(position.Y + 0.5)) % 10;
-                if (positionDiff == 0 && speed.Y < MAX_FALL_SPEED)
+                if (positionDiff == 0 && mySpeed.Y < MAX_FALL_SPEED)
                 {
                     // Apply gravity
                     Vector2 newtonSpeed = FALL_SPEED * myDirection;
                     newtonSpeed.X = newtonSpeed.Y;
-                    speed += newtonSpeed;
+                    mySpeed += newtonSpeed;
                 }
             }
         }
@@ -82,7 +82,7 @@ namespace NDE
                 myCurrentState = state.JUMPING;
                 myStartingPosition = position;
                 myDirection.Y = MOVE_UP;
-                speed = JUMP_SPEED;
+                mySpeed = JUMP_SPEED;
             }
         }
 

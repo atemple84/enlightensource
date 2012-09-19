@@ -6,7 +6,7 @@ namespace LevelDataTypes
 {
     public class LevelData
     {
-        public int gameSpeed = 300;
+        public static int gameSpeed = 300;
         public List<SpriteData> sprites = new List<SpriteData>();
     }
 }

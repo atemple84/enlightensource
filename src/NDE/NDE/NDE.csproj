@@ -90,8 +90,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BackgroundSprite.cs" />
-    <Compile Include="CollisionSprite.cs" />
+    <Compile Include="MovingSprite.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="PlayerSprite.cs" />
     <Compile Include="Sprite.cs" />

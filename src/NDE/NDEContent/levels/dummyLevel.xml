@@ -1,14 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <XnaContent>
   <Asset Type="LevelDataTypes.LevelData">
-    <gameSpeed>300</gameSpeed>
     <sprites>
+      <Item>
+        <textureName>background</textureName>
+        <obstacleType>BACKGROUND</obstacleType>
+        <scale>1</scale>
+        <color>FFFFFFFF</color>
+        <position>0 0</position>
+        <gameSpeed>0 0</gameSpeed>
+      </Item>
       <Item>
         <textureName>platform_gold1</textureName>
         <obstacleType>PLATFORM</obstacleType>
         <scale>0.6</scale>
         <color>FFFFFFFF</color>
         <position>0 265</position>
+        <gameSpeed>300 300</gameSpeed>
       </Item>
       <Item>
         <textureName>LOL</textureName>
@@ -16,6 +24,7 @@
         <scale>0.25</scale>
         <color>FFFF0000</color>
         <position>175 165</position>
+        <gameSpeed>300 300</gameSpeed>
       </Item>
     </sprites>
   </Asset>
