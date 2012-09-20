@@ -62,6 +62,7 @@ namespace NDE
 
         static public Vector2 bottomPoint;
         Level currentLevel;
+        private int currentButtonSequence;
 
         public Game1()
         {
@@ -78,6 +79,7 @@ namespace NDE
         protected override void Initialize()
         {
             currentLevel = new Level(GraphicsDevice);
+            currentButtonSequence = 0;
 
             base.Initialize();
         }
@@ -127,12 +129,21 @@ namespace NDE
             switch (gameState)
             {
                 case State.TITLE:
+                    // Capture button sequence
+                    if (currentKeyboardState.GetPressedKeys().Length > 0 ||
+                        currentGamePadState.Buttons.A == ButtonState.Pressed ||
+                        currentGamePadState.Buttons.B == ButtonState.Pressed ||
+                        currentGamePadState.Buttons.X == ButtonState.Pressed ||
+                        currentGamePadState.Buttons.Y == ButtonState.Pressed)
+                    {
+                        checkButtonSequence(currentKeyboardState, previousKeyboardState, currentGamePadState, previousGamePadState);
+                    }
+
                     if (currentKeyboardState.IsKeyDown(Keys.Enter) || currentGamePadState.IsButtonDown(Buttons.Start))
                     {
                         // Initialize all the levels
-                        vPlayer.Pause();
                         gameState = State.RUNNING;
-                        initLevels();
+                        initLevels(false);
                     }
                     break;
                 case State.RUNNING:
@@ -141,6 +152,8 @@ namespace NDE
                     else
                     {
                         // Check the level status
+                        if (currentLevel == null)
+                            break;
                         if (currentLevel.runningState == CompletionState.complete)
                         {
                             currentLevel = currentLevel.nextLevel;
@@ -173,6 +186,82 @@ namespace NDE
         }
 
         /// <summary>
+        /// Checks the button sequence at the start menu for the sole purpose of loading the developer room
+        /// </summary>
+        /// <param name="currentKeyboardState"></param>
+        /// <param name="previousKeyboardState"></param>
+        /// <param name="currentGamePadState"></param>
+        /// <param name="previousGamePadState"></param>
+        private void checkButtonSequence(KeyboardState currentKeyboardState, KeyboardState previousKeyboardState, GamePadState currentGamePadState, GamePadState previousGamePadState)
+        {
+            switch (currentButtonSequence)
+            {
+                case 0:     // look for A
+                    if (previousKeyboardState.IsKeyDown(Keys.A) || previousGamePadState.IsButtonDown(Buttons.A))
+                        break;
+                    else if (currentKeyboardState.IsKeyDown(Keys.A) || currentGamePadState.IsButtonDown(Buttons.A))
+                        ++currentButtonSequence;
+                    break;
+                case 1:     // look for B
+                    if (previousKeyboardState.IsKeyDown(Keys.A) || previousGamePadState.IsButtonDown(Buttons.A))
+                        break;
+                    else if (currentKeyboardState.IsKeyDown(Keys.B) || currentGamePadState.IsButtonDown(Buttons.B))
+                        ++currentButtonSequence;
+                    else
+                        currentButtonSequence = 0;
+                    break;
+                case 2:     // look for A
+                    if (previousKeyboardState.IsKeyDown(Keys.B) || previousGamePadState.IsButtonDown(Buttons.B))
+                        break;
+                    else if (currentKeyboardState.IsKeyDown(Keys.A) || currentGamePadState.IsButtonDown(Buttons.A))
+                        ++currentButtonSequence;
+                    else
+                        currentButtonSequence = 0;
+                    break;
+                case 3:     // look for Y
+                    if (previousKeyboardState.IsKeyDown(Keys.A) || previousGamePadState.IsButtonDown(Buttons.A))
+                        break;
+                    else if (currentKeyboardState.IsKeyDown(Keys.Y) || currentGamePadState.IsButtonDown(Buttons.Y))
+                        ++currentButtonSequence;
+                    else
+                        currentButtonSequence = 0;
+                    break;
+                case 4:     // look for A
+                    if (previousKeyboardState.IsKeyDown(Keys.Y) || previousGamePadState.IsButtonDown(Buttons.Y))
+                        break;
+                    else if (currentKeyboardState.IsKeyDown(Keys.A) || currentGamePadState.IsButtonDown(Buttons.A))
+                        ++currentButtonSequence;
+                    else
+                        currentButtonSequence = 0;
+                    break;
+                case 5:     // look for B
+                    if (previousKeyboardState.IsKeyDown(Keys.A) || previousGamePadState.IsButtonDown(Buttons.A))
+                        break;
+                    else if (currentKeyboardState.IsKeyDown(Keys.B) || currentGamePadState.IsButtonDown(Buttons.B))
+                        ++currentButtonSequence;
+                    else
+                        currentButtonSequence = 0;
+                    break;
+                case 6:     // look for B
+                    if (previousKeyboardState.IsKeyDown(Keys.B) || previousGamePadState.IsButtonDown(Buttons.B))
+                        break;
+                    else if (currentKeyboardState.IsKeyDown(Keys.B) || currentGamePadState.IsButtonDown(Buttons.B))
+                    {
+                        // Developer room!!
+                        // Initialize developer level
+                        gameState = State.RUNNING;
+                        initLevels(true);
+                    }
+                    else
+                        currentButtonSequence = 0;
+                    break;
+                default:   // Should never be here
+                    currentButtonSequence = 0;
+                    break;
+            }
+        }
+
+        /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
@@ -181,7 +270,13 @@ namespace NDE
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
 
-            if (gameState == State.TITLE || currentLevel.loadedState == LoadingState.loading)
+            if (currentLevel == null)
+            {
+                spriteBatch.Draw(vPlayer.GetTexture(), GraphicsDevice.Viewport.Bounds, Color.White);
+                Vector2 v1 = new Vector2(150, 300);
+                spriteBatch.DrawString(normalText, "No levels to load", v1, Color.White);
+            }
+            else if (gameState == State.TITLE || currentLevel.loadedState == LoadingState.loading)
             {
                 spriteBatch.Draw(vPlayer.GetTexture(), GraphicsDevice.Viewport.Bounds, Color.White);
                 if (currentLevel.loadedState == LoadingState.loading)
@@ -208,12 +303,18 @@ namespace NDE
         /// <summary>
         /// Initializes all the levels on disk. Also loads the first level
         /// </summary>
-        private void initLevels()
+        private void initLevels(bool isdeveloper)
         {
-            // TODO parse directory of levels
-            currentLevel.levelId = "level1.xml";
+            if (isdeveloper)
+            {
+                vPlayer.Pause();
+                currentLevel.levelId = "level1.xml";
+                currentLevel.LoadLevel(Content);
+                return;
+            }
 
-            currentLevel.LoadLevel(Content);
+            // TODO parse directory of levels
+            currentLevel = null;
         }
     }
 }
