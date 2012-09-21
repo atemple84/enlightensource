@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -78,7 +79,7 @@ namespace NDE
         /// </summary>
         protected override void Initialize()
         {
-            currentLevel = new Level(GraphicsDevice);
+            currentLevel = new Level(GraphicsDevice, "invalid");
             currentButtonSequence = 0;
 
             base.Initialize();
@@ -305,16 +306,43 @@ namespace NDE
         /// </summary>
         private void initLevels(bool isdeveloper)
         {
+            currentLevel = null;
             if (isdeveloper)
             {
                 vPlayer.Pause();
-                currentLevel.levelId = "level1.xml";
+                currentLevel = new Level(GraphicsDevice, "dummyLevel");
                 currentLevel.LoadLevel(Content);
                 return;
             }
 
-            // TODO parse directory of levels
-            currentLevel = null;
+            // parse directory of levels
+            int i = 1;
+            Level previousLevel = null;
+            while (i <= Directory.GetFiles(Content.RootDirectory + "/levels", "level*.xml").Length)
+            {
+                Level nextLevel;
+
+                // Only increment previous level after the second loop
+                if (i > 2)
+                    previousLevel = previousLevel.nextLevel;
+
+                // Check for the next level
+                string curLevelName = "level" + i;
+                if (File.Exists(Content.RootDirectory + "/levels/" + curLevelName))
+                {
+                    nextLevel = new Level(GraphicsDevice, curLevelName);
+                    if (currentLevel == null)
+                        currentLevel = previousLevel = nextLevel;
+                    else
+                        previousLevel.nextLevel = nextLevel;
+                }
+                else
+                    break;
+                ++i;
+            }
+
+            if (currentLevel != null)
+                currentLevel.LoadLevel(Content);
         }
     }
 }

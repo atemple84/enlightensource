@@ -37,18 +37,19 @@ namespace NDE
         static readonly object locker = new object();
 
         public Level nextLevel = null;
-        public string levelId;
+        private string myLevelId;
 
         /// <summary>
         /// Constructor. MUST use graphics device for creating extra textures, and
         ///              using the viewport
         /// </summary>
         /// <param name="theGraphicsDevice"></param>
-        public Level(GraphicsDevice theGraphicsDevice)
+        public Level(GraphicsDevice theGraphicsDevice, string levelId)
         {
             myGraphicsDevice = theGraphicsDevice;
             loadedState = LoadingState.uninitialized;
             runningState = CompletionState.running;
+            myLevelId = levelId;
         }
 
         /// <summary>
@@ -74,7 +75,7 @@ namespace NDE
             lock (locker)
             {
                 myLevelSprites.Clear();
-                LevelData levelData = myContent.Load<LevelData>("levels/dummyLevel");
+                LevelData levelData = myContent.Load<LevelData>("levels/" + myLevelId);
                 foreach (SpriteData curSprite in levelData.sprites)
                 {
                     MovingSprite dummySprite = new MovingSprite(myGraphicsDevice.Viewport.Width, (collisionType)curSprite.obstacleType);
