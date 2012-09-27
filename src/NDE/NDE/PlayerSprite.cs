@@ -31,6 +31,8 @@ namespace NDE
         public PlayerSprite(PlayerIndex index)
         {
             myPlayerIndex = index;
+            scale = 0.088f;
+            spriteName = "little guy";
             position = new Vector2(15, 200);
         }
 

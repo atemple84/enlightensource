@@ -20,7 +20,7 @@ namespace NDE
 
         public MovingSprite(int viewportWidth, collisionType theCollisionType)
         {
-            myViewportWidth = viewportWidth + 150;
+            myViewportWidth = viewportWidth;
             myCollisionType = theCollisionType;
         }
 

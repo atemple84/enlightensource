@@ -46,7 +46,7 @@ namespace NDE
         public virtual void Update(GameTime gametime, ContentManager theContent)
         {
             position += myDirection * mySpeed * (float)gametime.ElapsedGameTime.TotalSeconds;
-            if (repeat && position.X < -150)
+            if (repeat && (position.X + mySize.Width) < 0)
             {
                 position.X = myViewportWidth;
                 LoadContent(theContent);

@@ -21,5 +21,6 @@ namespace LevelDataTypes
         public Color color = Color.White;
         public Vector2 position = new Vector2(0, 265);
         public Vector2 gameSpeed = new Vector2(LevelData.gameSpeed, LevelData.gameSpeed);
+        public bool repeat = true;
     }
 }

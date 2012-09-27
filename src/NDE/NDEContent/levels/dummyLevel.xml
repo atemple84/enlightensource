@@ -3,28 +3,67 @@
   <Asset Type="LevelDataTypes.LevelData">
     <sprites>
       <Item>
-        <textureName>background</textureName>
+        <textureName>background_blue</textureName>
         <obstacleType>BACKGROUND</obstacleType>
         <scale>1</scale>
         <color>FFFFFFFF</color>
         <position>0 0</position>
         <gameSpeed>0 0</gameSpeed>
+        <repeat>true</repeat>
+      </Item>
+      <Item>
+        <textureName>sun</textureName>
+        <obstacleType>BACKGROUND</obstacleType>
+        <scale>0.2</scale>
+        <color>FFFFFFFF</color>
+        <position>600 5</position>
+        <gameSpeed>100 0</gameSpeed>
+        <repeat>true</repeat>
+      </Item>
+      <Item>
+        <textureName>cloud 3</textureName>
+        <obstacleType>BACKGROUND</obstacleType>
+        <scale>0.2</scale>
+        <color>FFFFFFFF</color>
+        <position>600 60</position>
+        <gameSpeed>125 0</gameSpeed>
+        <repeat>true</repeat>
+      </Item>
+      <Item>
+        <textureName>top cloud</textureName>
+        <obstacleType>BACKGROUND</obstacleType>
+        <scale>0.47</scale>
+        <color>FFFFFFFF</color>
+        <position>0 0</position>
+        <gameSpeed>125 0</gameSpeed>
+        <repeat>true</repeat>
+      </Item>
+      <Item>
+        <textureName>top cloud</textureName>
+        <obstacleType>BACKGROUND</obstacleType>
+        <scale>0.47</scale>
+        <color>FFFFFFFF</color>
+        <position>805 0</position>
+        <gameSpeed>125 0</gameSpeed>
+        <repeat>true</repeat>
       </Item>
       <Item>
         <textureName>platform_gold1</textureName>
         <obstacleType>PLATFORM</obstacleType>
-        <scale>0.6</scale>
+        <scale>0.3</scale>
         <color>FFFFFFFF</color>
         <position>0 265</position>
         <gameSpeed>300 300</gameSpeed>
+        <repeat>true</repeat>
       </Item>
       <Item>
         <textureName>LOL</textureName>
         <obstacleType>OBSTACLE</obstacleType>
-        <scale>0.25</scale>
+        <scale>0.2</scale>
         <color>FFFF0000</color>
         <position>175 165</position>
         <gameSpeed>300 300</gameSpeed>
+        <repeat>true</repeat>
       </Item>
     </sprites>
   </Asset>

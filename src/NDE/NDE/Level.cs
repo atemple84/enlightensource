@@ -83,6 +83,7 @@ namespace NDE
                     dummySprite.spriteName = curSprite.textureName;
                     dummySprite.color = curSprite.color;
                     dummySprite.position = curSprite.position;
+                    dummySprite.repeat = curSprite.repeat;
                     dummySprite.setSpeed(curSprite.gameSpeed);
                     dummySprite.LoadContent(myContent);
                     myLevelSprites.Add(dummySprite);
@@ -90,8 +91,6 @@ namespace NDE
 
                 // Load players
                 PlayerSprite dummyPlayer = new PlayerSprite(PlayerIndex.One);
-                dummyPlayer.scale = 0.15f;
-                dummyPlayer.spriteName = "little guy";
                 dummyPlayer.LoadContent(myContent);
                 playerList.list().Add(dummyPlayer);
 
