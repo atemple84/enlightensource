@@ -20,22 +20,22 @@ namespace LevelEditor
             SpriteData dummyBackground = new SpriteData();
             dummyBackground.obstacleType = collisionType.BACKGROUND;
             dummyBackground.textureName = "background_blue";
-            dummyBackground.scale = 1f;
+            dummyBackground.scale = 0.26666666f;
             dummyBackground.color = Color.White;
             dummyBackground.position = new Vector2(0, 0);
             dummyBackground.gameSpeed = Vector2.Zero;
             ExampleData.sprites.Add(dummyBackground);
 
-            /*
+            
             SpriteData dummySunGlow = new SpriteData();
             dummySunGlow.obstacleType = collisionType.BACKGROUND;
             dummySunGlow.textureName = "sun glow";
             dummySunGlow.scale = 0.2f;
             dummySunGlow.color = Color.White;
-            dummySunGlow.position = new Vector2(600, 10);
-            dummySunGlow.gameSpeed = new Vector2(100, 0);
+            dummySunGlow.position = new Vector2(600, 5);
+            dummySunGlow.gameSpeed = new Vector2(80, 0);
             ExampleData.sprites.Add(dummySunGlow);
-            */
+            
 
             SpriteData dummySun = new SpriteData();
             dummySun.obstacleType = collisionType.BACKGROUND;
@@ -43,7 +43,7 @@ namespace LevelEditor
             dummySun.scale = 0.2f;
             dummySun.color = Color.White;
             dummySun.position = new Vector2(600, 5);
-            dummySun.gameSpeed = new Vector2(100, 0);
+            dummySun.gameSpeed = new Vector2(80, 0);
             ExampleData.sprites.Add(dummySun);
 
             SpriteData dummyCloud = new SpriteData();
@@ -52,7 +52,7 @@ namespace LevelEditor
             dummyCloud.scale = 0.2f;
             dummyCloud.color = Color.White;
             dummyCloud.position = new Vector2(600, 60);
-            dummyCloud.gameSpeed = new Vector2(125, 0);
+            dummyCloud.gameSpeed = new Vector2(100, 0);
             ExampleData.sprites.Add(dummyCloud);
 
             SpriteData dummyTopCloud1 = new SpriteData();
@@ -60,7 +60,7 @@ namespace LevelEditor
             dummyTopCloud1.textureName = "top cloud";
             dummyTopCloud1.scale = 0.47f;
             dummyTopCloud1.color = Color.White;
-            dummyTopCloud1.position = new Vector2(0, 0);
+            dummyTopCloud1.position = new Vector2(0, 415);
             dummyTopCloud1.gameSpeed = new Vector2(125, 0);
             ExampleData.sprites.Add(dummyTopCloud1);
 
@@ -69,7 +69,7 @@ namespace LevelEditor
             dummyTopCloud2.textureName = "top cloud";
             dummyTopCloud2.scale = 0.47f;
             dummyTopCloud2.color = Color.White;
-            dummyTopCloud2.position = new Vector2(805, 0);
+            dummyTopCloud2.position = new Vector2(805, 415);
             dummyTopCloud2.gameSpeed = new Vector2(125, 0);
             ExampleData.sprites.Add(dummyTopCloud2);
 
