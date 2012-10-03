@@ -60,6 +60,7 @@ namespace NDE
         
         // For generic text writing
         SpriteFont normalText;
+        SpriteFont GameOverTextLarge;
 
         static public Vector2 bottomPoint;
         Level currentLevel;
@@ -101,6 +102,7 @@ namespace NDE
 
             normalText = Content.Load<SpriteFont>("NormalText");
             bottomPoint = new Vector2(0, GraphicsDevice.Viewport.Height - 20);
+            GameOverTextLarge = Content.Load<SpriteFont>("Fixedsys_large");
         }
 
         /// <summary>
@@ -125,6 +127,9 @@ namespace NDE
             // Allows the game to exit
             if (currentGamePadState.Buttons.Back == ButtonState.Pressed || currentKeyboardState.IsKeyDown(Keys.Escape))
                 this.Exit();
+
+            if (currentKeyboardState.IsKeyDown(Keys.D))
+                gameState = State.GAME_OVER;
 
             // State transitions
             switch (gameState)
@@ -268,32 +273,42 @@ namespace NDE
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
+            if (gameState == State.GAME_OVER)
+            {
+                GraphicsDevice.Clear(Color.Black);
+                Vector2 v1 = new Vector2(325, 100);
+                spriteBatch.DrawString(GameOverTextLarge, "FAIL", v1, Color.White);
+            }
 
-            if (currentLevel == null)
-            {
-                spriteBatch.Draw(vPlayer.GetTexture(), GraphicsDevice.Viewport.Bounds, Color.White);
-                Vector2 v1 = new Vector2(150, 300);
-                spriteBatch.DrawString(normalText, "No levels to load", v1, Color.White);
-            }
-            else if (gameState == State.TITLE || currentLevel.loadedState == LoadingState.loading)
-            {
-                spriteBatch.Draw(vPlayer.GetTexture(), GraphicsDevice.Viewport.Bounds, Color.White);
-                if (currentLevel.loadedState == LoadingState.loading)
-                {
-                    Vector2 v1 = new Vector2(200, 300);
-                    spriteBatch.DrawString(normalText, "Loading Level...", v1, Color.White);
-                }
-            }
             else
             {
-                // Draw items on current level
-                currentLevel.Draw(spriteBatch);
-                if (gameState == State.PAUSE)
+                GraphicsDevice.Clear(Color.CornflowerBlue);
+
+                if (currentLevel == null)
                 {
-                    Vector2 v1 = new Vector2(200, 100);
-                    spriteBatch.DrawString(normalText, "Game Paused", v1, Color.White);
+                    spriteBatch.Draw(vPlayer.GetTexture(), GraphicsDevice.Viewport.Bounds, Color.White);
+                    Vector2 v1 = new Vector2(150, 300);
+                    spriteBatch.DrawString(normalText, "No levels to load", v1, Color.White);
+                }
+                else if (gameState == State.TITLE || currentLevel.loadedState == LoadingState.loading)
+                {
+                    spriteBatch.Draw(vPlayer.GetTexture(), GraphicsDevice.Viewport.Bounds, Color.White);
+                    if (currentLevel.loadedState == LoadingState.loading)
+                    {
+                        Vector2 v1 = new Vector2(200, 300);
+                        spriteBatch.DrawString(normalText, "Loading Level...", v1, Color.White);
+                    }
+                }
+                else
+                {
+                    // Draw items on current level
+                    currentLevel.Draw(spriteBatch);
+                    if (gameState == State.PAUSE)
+                    {
+                        Vector2 v1 = new Vector2(200, 100);
+                        spriteBatch.DrawString(normalText, "Game Paused", v1, Color.White);
+                    }
                 }
             }
 
