@@ -16,10 +16,12 @@ namespace NDE
         public Vector2 position = new Vector2(0, 0);
         public float scale = 1.0f;
         public float rotation = 0f;
+        public float rotationSpeed = 0f;
         public Color color = Color.White;
         public bool repeat = true;
         protected Vector2 mySpeed = Vector2.Zero;
         public string spriteName;
+        private Vector2 myCenter;
 
         // protected properties
         protected Texture2D myTexture;
@@ -31,6 +33,9 @@ namespace NDE
         {
             myTexture = theContentManager.Load<Texture2D>(spriteName);
             mySize = new Rectangle(0, 0, (int)(myTexture.Width * scale), (int)(myTexture.Height * scale));
+            int originX = myTexture.Width / 2;
+            int originY = myTexture.Height / 2;
+            myCenter = new Vector2(originX, originY);
         }
 
         public Texture2D getTexture()
@@ -43,14 +48,19 @@ namespace NDE
             return mySize;
         }
 
+        public Vector2 center()
+        {
+            return myCenter;
+        }
+
         public virtual void Update(GameTime gametime, ContentManager theContent)
         {
             position += myDirection * mySpeed * (float)gametime.ElapsedGameTime.TotalSeconds;
-            if (repeat && (position.X + mySize.Width) < 0)
-            {
-                position.X = myViewportWidth;
-                LoadContent(theContent);
-            }
+            if (repeat && (position.X + (mySize.Width/2)) < 0)
+                position.X = myViewportWidth + (mySize.Width/2);
+
+            rotation += rotationSpeed;
+            rotation = rotation % (MathHelper.Pi * 2);
             detectCollision();
         }
 

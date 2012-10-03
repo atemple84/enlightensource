@@ -22,7 +22,7 @@ namespace LevelEditor
             dummyBackground.textureName = "background_blue";
             dummyBackground.scale = 0.26666666f;
             dummyBackground.color = Color.White;
-            dummyBackground.position = new Vector2(0, 0);
+            dummyBackground.position = new Vector2(400, 246);
             dummyBackground.gameSpeed = Vector2.Zero;
             ExampleData.sprites.Add(dummyBackground);
 
@@ -32,7 +32,7 @@ namespace LevelEditor
             dummySunGlow.textureName = "sun glow";
             dummySunGlow.scale = 0.2f;
             dummySunGlow.color = Color.White;
-            dummySunGlow.position = new Vector2(600, 5);
+            dummySunGlow.position = new Vector2(600, 85);
             dummySunGlow.gameSpeed = new Vector2(80, 0);
             ExampleData.sprites.Add(dummySunGlow);
             
@@ -42,7 +42,7 @@ namespace LevelEditor
             dummySun.textureName = "sun";
             dummySun.scale = 0.2f;
             dummySun.color = Color.White;
-            dummySun.position = new Vector2(600, 5);
+            dummySun.position = new Vector2(600, 85);
             dummySun.gameSpeed = new Vector2(80, 0);
             ExampleData.sprites.Add(dummySun);
 
@@ -51,7 +51,7 @@ namespace LevelEditor
             dummyCloud.textureName = "cloud 3";
             dummyCloud.scale = 0.2f;
             dummyCloud.color = Color.White;
-            dummyCloud.position = new Vector2(600, 60);
+            dummyCloud.position = new Vector2(600, 85);
             dummyCloud.gameSpeed = new Vector2(100, 0);
             ExampleData.sprites.Add(dummyCloud);
 
@@ -60,7 +60,7 @@ namespace LevelEditor
             dummyTopCloud1.textureName = "top cloud";
             dummyTopCloud1.scale = 0.47f;
             dummyTopCloud1.color = Color.White;
-            dummyTopCloud1.position = new Vector2(0, 415);
+            dummyTopCloud1.position = new Vector2(400, 465);
             dummyTopCloud1.gameSpeed = new Vector2(125, 0);
             ExampleData.sprites.Add(dummyTopCloud1);
 
@@ -69,7 +69,7 @@ namespace LevelEditor
             dummyTopCloud2.textureName = "top cloud";
             dummyTopCloud2.scale = 0.47f;
             dummyTopCloud2.color = Color.White;
-            dummyTopCloud2.position = new Vector2(805, 415);
+            dummyTopCloud2.position = new Vector2(1205, 465);
             dummyTopCloud2.gameSpeed = new Vector2(125, 0);
             ExampleData.sprites.Add(dummyTopCloud2);
 
@@ -105,6 +105,7 @@ namespace LevelEditor
             dummyObstacle.scale = 0.2f;
             dummyObstacle.color = Color.Red;
             dummyObstacle.position = new Vector2(175, 165);
+            dummyObstacle.rotationSpeed = 0.02f;
             ExampleData.sprites.Add(dummyObstacle);
 
             // Set up XML writer

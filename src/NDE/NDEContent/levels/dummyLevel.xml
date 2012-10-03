@@ -7,54 +7,66 @@
         <obstacleType>BACKGROUND</obstacleType>
         <scale>0.266666651</scale>
         <color>FFFFFFFF</color>
-        <position>0 0</position>
+        <position>400 246</position>
         <gameSpeed>0 0</gameSpeed>
         <repeat>true</repeat>
+        <rotation>0</rotation>
+        <rotationSpeed>0</rotationSpeed>
       </Item>
       <Item>
         <textureName>sun glow</textureName>
         <obstacleType>BACKGROUND</obstacleType>
         <scale>0.2</scale>
         <color>FFFFFFFF</color>
-        <position>600 5</position>
+        <position>600 85</position>
         <gameSpeed>80 0</gameSpeed>
         <repeat>true</repeat>
+        <rotation>0</rotation>
+        <rotationSpeed>0</rotationSpeed>
       </Item>
       <Item>
         <textureName>sun</textureName>
         <obstacleType>BACKGROUND</obstacleType>
         <scale>0.2</scale>
         <color>FFFFFFFF</color>
-        <position>600 5</position>
+        <position>600 85</position>
         <gameSpeed>80 0</gameSpeed>
         <repeat>true</repeat>
+        <rotation>0</rotation>
+        <rotationSpeed>0</rotationSpeed>
       </Item>
       <Item>
         <textureName>cloud 3</textureName>
         <obstacleType>BACKGROUND</obstacleType>
         <scale>0.2</scale>
         <color>FFFFFFFF</color>
-        <position>600 60</position>
+        <position>600 85</position>
         <gameSpeed>100 0</gameSpeed>
         <repeat>true</repeat>
+        <rotation>0</rotation>
+        <rotationSpeed>0</rotationSpeed>
       </Item>
       <Item>
         <textureName>top cloud</textureName>
         <obstacleType>BACKGROUND</obstacleType>
         <scale>0.47</scale>
         <color>FFFFFFFF</color>
-        <position>0 415</position>
+        <position>400 465</position>
         <gameSpeed>125 0</gameSpeed>
         <repeat>true</repeat>
+        <rotation>0</rotation>
+        <rotationSpeed>0</rotationSpeed>
       </Item>
       <Item>
         <textureName>top cloud</textureName>
         <obstacleType>BACKGROUND</obstacleType>
         <scale>0.47</scale>
         <color>FFFFFFFF</color>
-        <position>805 415</position>
+        <position>1205 465</position>
         <gameSpeed>125 0</gameSpeed>
         <repeat>true</repeat>
+        <rotation>0</rotation>
+        <rotationSpeed>0</rotationSpeed>
       </Item>
       <Item>
         <textureName>platform_gold1</textureName>
@@ -64,6 +76,8 @@
         <position>0 265</position>
         <gameSpeed>300 300</gameSpeed>
         <repeat>true</repeat>
+        <rotation>0</rotation>
+        <rotationSpeed>0</rotationSpeed>
       </Item>
       <Item>
         <textureName>LOL</textureName>
@@ -73,6 +87,8 @@
         <position>175 165</position>
         <gameSpeed>300 300</gameSpeed>
         <repeat>true</repeat>
+        <rotation>0</rotation>
+        <rotationSpeed>0.02</rotationSpeed>
       </Item>
     </sprites>
   </Asset>

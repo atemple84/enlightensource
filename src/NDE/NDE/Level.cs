@@ -85,6 +85,10 @@ namespace NDE
                     dummySprite.position = curSprite.position;
                     dummySprite.repeat = curSprite.repeat;
                     dummySprite.setSpeed(curSprite.gameSpeed);
+                    dummySprite.rotation = curSprite.rotation;
+                    dummySprite.rotationSpeed = curSprite.rotationSpeed;
+
+                    // Loads the sprite
                     dummySprite.LoadContent(myContent);
                     myLevelSprites.Add(dummySprite);
                 }
@@ -118,7 +122,7 @@ namespace NDE
 
             // Draw all the level sprites
             foreach (Sprite curPlatform in myLevelSprites)
-                spriteBatch.Draw(curPlatform.getTexture(), curPlatform.position, null, curPlatform.color, curPlatform.rotation, Vector2.Zero, curPlatform.scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(curPlatform.getTexture(), curPlatform.position, null, curPlatform.color, curPlatform.rotation, curPlatform.center(), curPlatform.scale, SpriteEffects.None, 0f);
             foreach (PlayerSprite curPlayer in playerList.list())
                 spriteBatch.Draw(curPlayer.getTexture(), curPlayer.position, null, curPlayer.color, curPlayer.rotation, Vector2.Zero, curPlayer.scale, SpriteEffects.None, 0f);
 

@@ -22,5 +22,7 @@ namespace LevelDataTypes
         public Vector2 position = new Vector2(0, 265);
         public Vector2 gameSpeed = new Vector2(LevelData.gameSpeed, LevelData.gameSpeed);
         public bool repeat = true;
+        public float rotation = 0f;
+        public float rotationSpeed = 0f;
     }
 }
