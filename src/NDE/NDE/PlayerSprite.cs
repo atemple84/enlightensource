@@ -21,6 +21,8 @@ namespace NDE
         private KeyboardState myPrevKeyboardState;
         private GamePadState myPrevGamePadState;
 
+        public event ChangedEventHandler Changed;
+
         enum state
         {
             STANDING,
@@ -73,6 +75,13 @@ namespace NDE
                     newtonSpeed.X = newtonSpeed.Y;
                     mySpeed += newtonSpeed;
                 }
+            }
+
+            // TEMPORARY death key
+            if (curKeyboardState.IsKeyDown(Keys.D) || curPadState.IsButtonDown(Buttons.RightStick))
+            {
+                if (Changed != null)
+                    Changed(this, false);
             }
         }
 

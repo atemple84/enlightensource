@@ -21,7 +21,8 @@ namespace NDE
     enum CompletionState
     {
         running,
-        complete
+        complete,
+        dead
     }
 
     class Level
@@ -39,6 +40,12 @@ namespace NDE
         public Level nextLevel = null;
         private string myLevelId;
 
+        private SpriteFont GameOverTextLarge;
+        private SpriteFont GameOverTextSmall;
+        private List<string> deathStrings = new List<string>();
+        private Random deathStringRandomizer = new Random();
+        private string failString = null;
+
         /// <summary>
         /// Constructor. MUST use graphics device for creating extra textures, and
         ///              using the viewport
@@ -50,6 +57,11 @@ namespace NDE
             loadedState = LoadingState.uninitialized;
             runningState = CompletionState.running;
             myLevelId = levelId;
+            deathStrings.Add("humiliated");
+            deathStrings.Add("pwned");
+            deathStrings.Add("destroyed");
+            deathStrings.Add("demolished");
+            deathStrings.Add("embarrassed");
         }
 
         /// <summary>
@@ -61,6 +73,8 @@ namespace NDE
             // Start level loading thread
             loadedState = LoadingState.loading;
             myContent = theContent;
+            GameOverTextLarge = myContent.Load<SpriteFont>("Fixedsys_large");
+            GameOverTextSmall = myContent.Load<SpriteFont>("Fixedsys_small");
             Thread loadLevelThread = new Thread(LoadingThread);
             loadLevelThread.Start();
         }
@@ -96,10 +110,17 @@ namespace NDE
                 // Load players
                 PlayerSprite dummyPlayer = new PlayerSprite(PlayerIndex.One);
                 dummyPlayer.LoadContent(myContent);
+                dummyPlayer.Changed += new ChangedEventHandler(catchPlayerState);
                 playerList.list().Add(dummyPlayer);
 
                 loadedState = LoadingState.complete;
             }
+        }
+
+        private void catchPlayerState(object sender, bool isCompleted)
+        {
+            if (!isCompleted)
+                runningState = CompletionState.dead;
         }
 
         public void Update(GameTime gameTime)
@@ -120,14 +141,30 @@ namespace NDE
             if (loadedState != LoadingState.complete)
                 return;
 
-            // Draw all the level sprites
-            foreach (Sprite curPlatform in myLevelSprites)
-                spriteBatch.Draw(curPlatform.getTexture(), curPlatform.position, null, curPlatform.color, curPlatform.rotation, curPlatform.center(), curPlatform.scale, SpriteEffects.None, 0f);
-            foreach (PlayerSprite curPlayer in playerList.list())
-                spriteBatch.Draw(curPlayer.getTexture(), curPlayer.position, null, curPlayer.color, curPlayer.rotation, Vector2.Zero, curPlayer.scale, SpriteEffects.None, 0f);
+            if (runningState == CompletionState.dead)
+            {
+                myGraphicsDevice.Clear(Color.Black);
+                spriteBatch.Draw(myBlankTexture, new Vector2(280, 120), null, Color.White, 0, Vector2.Zero, new Vector2(210, 70), SpriteEffects.None, 0);
+                spriteBatch.DrawString(GameOverTextLarge, "FAIL", new Vector2(280, 100), Color.Black);
+                if (failString == null)
+                {
+                    failString = "You have been ";
+                    failString += deathStrings[deathStringRandomizer.Next(0, deathStrings.Count() - 1)] + " by";
+                }
+                spriteBatch.DrawString(GameOverTextSmall, failString, new Vector2(100, 200), Color.White);
+            }
 
-            // Draw any extra borders, etc.
-            spriteBatch.Draw(myBlankTexture, Game1.bottomPoint, null, Color.Black, 0, Vector2.Zero, new Vector2(myGraphicsDevice.Viewport.Width, 1), SpriteEffects.None, 0);
+            else
+            {
+                // Draw all the level sprites
+                foreach (Sprite curPlatform in myLevelSprites)
+                    spriteBatch.Draw(curPlatform.getTexture(), curPlatform.position, null, curPlatform.color, curPlatform.rotation, curPlatform.center(), curPlatform.scale, SpriteEffects.None, 0f);
+                foreach (PlayerSprite curPlayer in playerList.list())
+                    spriteBatch.Draw(curPlayer.getTexture(), curPlayer.position, null, curPlayer.color, curPlayer.rotation, Vector2.Zero, curPlayer.scale, SpriteEffects.None, 0f);
+
+                // Draw any extra borders, etc.
+                spriteBatch.Draw(myBlankTexture, Game1.bottomPoint, null, Color.Black, 0, Vector2.Zero, new Vector2(myGraphicsDevice.Viewport.Width, 1), SpriteEffects.None, 0);
+            }
         }
     }
 }
