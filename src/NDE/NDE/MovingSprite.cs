@@ -16,7 +16,9 @@ namespace NDE
 
     class MovingSprite : Sprite
     {
+        public event ChangedEventHandler Changed;
         public collisionType myCollisionType = collisionType.PLATFORM;
+        private bool inCollisionDetection = false;
 
         public MovingSprite(int viewportWidth, collisionType theCollisionType)
         {
@@ -33,6 +35,28 @@ namespace NDE
 
         protected override void detectCollision()
         {
+            if (myCollisionType == collisionType.BACKGROUND)
+                return;
+            else
+            {
+                if (inCollisionDetection)
+                {
+                    if (boundingBox.Right < 0 || boundingBox.Left > 300)
+                        changeCollisionDetection(false);
+                }
+                else
+                {
+                    if (boundingBox.Left < 300 && boundingBox.Right > 0)
+                        changeCollisionDetection(true);
+                }
+            }
+        }
+
+        private void changeCollisionDetection(bool collisionFlag)
+        {
+            inCollisionDetection = collisionFlag;
+            if (Changed != null)
+                Changed(this, collisionFlag);
         }
     }
 }

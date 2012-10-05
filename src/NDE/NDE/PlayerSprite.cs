@@ -35,7 +35,7 @@ namespace NDE
             myPlayerIndex = index;
             scale = 0.088f;
             spriteName = "little guy";
-            position = new Vector2(15, 200);
+            position = new Vector2(50, 200);
         }
 
         public override void Update(GameTime theGameTime, ContentManager theContent)
@@ -100,10 +100,11 @@ namespace NDE
         protected override void detectCollision()
         {
             // Back to starting position. Stop jump
-            float curFeetPosition = position.Y + mySize.Height;
+            // **** THIS IS A TEMPORARY GROUND!!! UNTIL PROPER COLLISION DETECTION IS ENABLED ****
+            float curFeetPosition = boundingBox.Bottom;
             if(curFeetPosition > Game1.bottomPoint.Y)
             {
-                position.Y = Game1.bottomPoint.Y - mySize.Height;
+                position.Y = Game1.bottomPoint.Y - boundingBox.Height;
                 myCurrentState = state.STANDING;
                 myDirection = Vector2.Zero;
             }

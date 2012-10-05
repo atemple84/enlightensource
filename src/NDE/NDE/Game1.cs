@@ -169,7 +169,7 @@ namespace NDE
 
                         // Begin loading the new level
                         if (currentLevel.loadedState == LoadingState.uninitialized)
-                            currentLevel.LoadLevel(Content);
+                            currentLevel.LoadLevel(Content, PlayerIndex.One);
 
                         // Update the current level
                         else
@@ -316,7 +316,7 @@ namespace NDE
             {
                 vPlayer.Pause();
                 currentLevel = new Level(GraphicsDevice, "dummyLevel");
-                currentLevel.LoadLevel(Content);
+                currentLevel.LoadLevel(Content, PlayerIndex.One);
                 return;
             }
 
@@ -347,7 +347,7 @@ namespace NDE
             }
 
             if (currentLevel != null)
-                currentLevel.LoadLevel(Content);
+                currentLevel.LoadLevel(Content, PlayerIndex.One);
         }
     }
 }

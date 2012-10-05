@@ -27,25 +27,26 @@ namespace NDE
         protected Texture2D myTexture;
         protected int myViewportWidth;
         protected Vector2 myDirection = Vector2.Zero;
-        protected Rectangle mySize;
 
         public void LoadContent(ContentManager theContentManager)
         {
             myTexture = theContentManager.Load<Texture2D>(spriteName);
-            mySize = new Rectangle(0, 0, (int)(myTexture.Width * scale), (int)(myTexture.Height * scale));
             int originX = myTexture.Width / 2;
             int originY = myTexture.Height / 2;
             myCenter = new Vector2(originX, originY);
         }
 
+        public Rectangle boundingBox
+        {
+            get
+            {
+                return new Rectangle((int)position.X, (int)position.Y, (int)(myTexture.Width * scale), (int)(myTexture.Height * scale));
+            }
+        }
+
         public Texture2D getTexture()
         {
             return myTexture;
-        }
-
-        public Rectangle getSize()
-        {
-            return mySize;
         }
 
         public Vector2 center()
@@ -56,8 +57,8 @@ namespace NDE
         public virtual void Update(GameTime gametime, ContentManager theContent)
         {
             position += myDirection * mySpeed * (float)gametime.ElapsedGameTime.TotalSeconds;
-            if (repeat && (position.X + (mySize.Width/2)) < 0)
-                position.X = myViewportWidth + (mySize.Width/2);
+            if (repeat && boundingBox.Center.X < 0)
+                position.X = myViewportWidth + boundingBox.Right;
 
             rotation += rotationSpeed;
             rotation = rotation % (MathHelper.Pi * 2);

@@ -45,6 +45,8 @@ namespace NDE
         private List<string> deathStrings = new List<string>();
         private Random deathStringRandomizer = new Random();
         private string failString = null;
+        private PlayerSprite myPlayer;
+        private List<MovingSprite> collisionSprites = new List<MovingSprite>();
 
         /// <summary>
         /// Constructor. MUST use graphics device for creating extra textures, and
@@ -68,7 +70,13 @@ namespace NDE
         /// Loads the current level. Build all the sprites on the screen
         /// </summary>
         /// <param name="theContent"></param>
-        public void LoadLevel(ContentManager theContent)
+        public void LoadLevel(ContentManager theContent, PlayerIndex player)
+        {
+            myPlayer = new PlayerSprite(player);
+            LoadLevel(theContent);
+        }
+
+        private void LoadLevel(ContentManager theContent)
         {
             // Start level loading thread
             loadedState = LoadingState.loading;
@@ -101,6 +109,7 @@ namespace NDE
                     dummySprite.setSpeed(curSprite.gameSpeed);
                     dummySprite.rotation = curSprite.rotation;
                     dummySprite.rotationSpeed = curSprite.rotationSpeed;
+                    dummySprite.Changed += new ChangedEventHandler(catchCollisionPhase);
 
                     // Loads the sprite
                     dummySprite.LoadContent(myContent);
@@ -108,10 +117,9 @@ namespace NDE
                 }
 
                 // Load players
-                PlayerSprite dummyPlayer = new PlayerSprite(PlayerIndex.One);
-                dummyPlayer.LoadContent(myContent);
-                dummyPlayer.Changed += new ChangedEventHandler(catchPlayerState);
-                playerList.list().Add(dummyPlayer);
+                myPlayer.LoadContent(myContent);
+                myPlayer.Changed += new ChangedEventHandler(catchPlayerState);
+                playerList.list().Add(myPlayer);
 
                 loadedState = LoadingState.complete;
             }
@@ -121,6 +129,18 @@ namespace NDE
         {
             if (!isCompleted)
                 runningState = CompletionState.dead;
+            else
+                runningState = CompletionState.complete;
+            myPlayer.Changed -= new ChangedEventHandler(catchPlayerState);
+        }
+
+        private void catchCollisionPhase(object sender, bool isCollisionState)
+        {
+            MovingSprite spriteSender = (MovingSprite)sender;
+            if (isCollisionState)
+                collisionSprites.Add(spriteSender);
+            else
+                collisionSprites.Remove(spriteSender);
         }
 
         public void Update(GameTime gameTime)
@@ -134,6 +154,9 @@ namespace NDE
 
             foreach (PlayerSprite curPlayer in playerList.list())
                 curPlayer.Update(gameTime, myContent);
+
+            // TODO detect level detection
+            detectLevelCollisions();
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -165,6 +188,10 @@ namespace NDE
                 // Draw any extra borders, etc.
                 spriteBatch.Draw(myBlankTexture, Game1.bottomPoint, null, Color.Black, 0, Vector2.Zero, new Vector2(myGraphicsDevice.Viewport.Width, 1), SpriteEffects.None, 0);
             }
+        }
+
+        private void detectLevelCollisions()
+        {
         }
     }
 }
