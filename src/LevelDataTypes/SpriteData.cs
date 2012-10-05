@@ -15,9 +15,9 @@ namespace LevelDataTypes
 
     public class SpriteData
     {
-        public string textureName = "platform_gold1";
+        public string textureName = "platform";
         public collisionType obstacleType = collisionType.PLATFORM;
-        public float scale = 0.6f;
+        public float scale = 1f;
         public Color color = Color.White;
         public Vector2 position = new Vector2(0, 265);
         public Vector2 gameSpeed = new Vector2(LevelData.gameSpeed, LevelData.gameSpeed);

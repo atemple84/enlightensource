@@ -95,7 +95,6 @@ namespace LevelEditor
 
             // Create platform(s)
             SpriteData dummyPlatform = new SpriteData();
-            dummyPlatform.scale = 0.3f;
             ExampleData.sprites.Add(dummyPlatform);
 
             // Create obstacle(s)
