@@ -6,6 +6,7 @@ using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Input;
 
 using LevelDataTypes;
 
@@ -42,11 +43,13 @@ namespace NDE
 
         private SpriteFont GameOverTextLarge;
         private SpriteFont GameOverTextSmall;
-        private List<string> deathStrings = new List<string>();
+        private List<string> deathStrings;
         private Random deathStringRandomizer = new Random();
-        private string failString = null;
+        private string failString;
         private PlayerSprite myPlayer;
         private List<MovingSprite> collisionSprites = new List<MovingSprite>();
+
+        private MovingSprite myCollidedSprite;
 
         /// <summary>
         /// Constructor. MUST use graphics device for creating extra textures, and
@@ -59,11 +62,7 @@ namespace NDE
             loadedState = LoadingState.uninitialized;
             runningState = CompletionState.running;
             myLevelId = levelId;
-            deathStrings.Add("humiliated");
-            deathStrings.Add("pwned");
-            deathStrings.Add("destroyed");
-            deathStrings.Add("demolished");
-            deathStrings.Add("embarrassed");
+            deathStrings = new List<string> {"humiliated", "pwned", "destroyed", "demolished", "embarrassed", "O.J. Simpson'ed", "gutted", "fatalatied", "slapped" };
         }
 
         /// <summary>
@@ -100,9 +99,12 @@ namespace NDE
                 LevelData levelData = myContent.Load<LevelData>("levels/" + myLevelId);
                 foreach (SpriteData curSprite in levelData.sprites)
                 {
-                    MovingSprite dummySprite = new MovingSprite(myGraphicsDevice.Viewport.Width, (collisionType)curSprite.obstacleType);
+                    // Loads the sprite
+                    MovingSprite dummySprite = new MovingSprite(curSprite.textureName, myGraphicsDevice.Viewport.Width, (collisionTypes)curSprite.obstacleType);
+                    dummySprite.LoadContent(myContent);
+
+                    // Set the sprite properties
                     dummySprite.scale = curSprite.scale;
-                    dummySprite.spriteName = curSprite.textureName;
                     dummySprite.color = curSprite.color;
                     dummySprite.position = curSprite.position;
                     dummySprite.repeat = curSprite.repeat;
@@ -111,15 +113,18 @@ namespace NDE
                     dummySprite.rotationSpeed = curSprite.rotationSpeed;
                     dummySprite.Changed += new ChangedEventHandler(catchCollisionPhase);
 
-                    // Loads the sprite
-                    dummySprite.LoadContent(myContent);
+                    // ****** TEMPORARY!!! Until proper collision detection is implemented ******* /
+                    if (myCollidedSprite == null && dummySprite.getCollisionType() == collisionTypes.OBSTACLE)
+                        myCollidedSprite = dummySprite;
+
                     myLevelSprites.Add(dummySprite);
                 }
 
                 // Load players
                 myPlayer.LoadContent(myContent);
                 myPlayer.Changed += new ChangedEventHandler(catchPlayerState);
-                playerList.list().Add(myPlayer);
+                if (!playerList.list().Contains(myPlayer))
+                    playerList.list().Add(myPlayer);
 
                 loadedState = LoadingState.complete;
             }
@@ -148,15 +153,33 @@ namespace NDE
             if (loadedState != LoadingState.complete)
                 return;
 
-            // Update all the level sprites for the level
-            foreach (Sprite curSprite in myLevelSprites)
-                curSprite.Update(gameTime, myContent);
+            if (runningState == CompletionState.dead)
+            {
+                KeyboardState currentKeyboardState = Keyboard.GetState();
+                GamePadState currentPadState = GamePad.GetState(myPlayer.getPlayerIndex());
+                if (currentKeyboardState.IsKeyDown(Keys.Enter) || currentPadState.IsButtonDown(Buttons.Start))
+                {
+                    // Reload the level
+                    runningState = CompletionState.running;
+                    collisionSprites.Clear();
+                    myCollidedSprite = null;
+                    failString = null;
+                    LoadLevel(myContent);
+                }
+            }
 
-            foreach (PlayerSprite curPlayer in playerList.list())
-                curPlayer.Update(gameTime, myContent);
+            else
+            {
+                // Update all the level sprites for the level
+                foreach (Sprite curSprite in myLevelSprites)
+                    curSprite.Update(gameTime, myContent);
 
-            // TODO detect level detection
-            detectLevelCollisions();
+                foreach (PlayerSprite curPlayer in playerList.list())
+                    curPlayer.Update(gameTime, myContent);
+
+                // TODO detect level detection
+                detectLevelCollisions();
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -167,14 +190,24 @@ namespace NDE
             if (runningState == CompletionState.dead)
             {
                 myGraphicsDevice.Clear(Color.Black);
-                spriteBatch.Draw(myBlankTexture, new Vector2(280, 120), null, Color.White, 0, Vector2.Zero, new Vector2(210, 70), SpriteEffects.None, 0);
-                spriteBatch.DrawString(GameOverTextLarge, "FAIL", new Vector2(280, 100), Color.Black);
+                Vector2 failLength = GameOverTextLarge.MeasureString("FAIL");
+                float failPos = (myGraphicsDevice.Viewport.Width / 2) - (failLength.X / 2);
+                spriteBatch.Draw(myBlankTexture, new Vector2(failPos, 40), null, Color.White, 0, Vector2.Zero, new Vector2(failLength.X, failLength.Y - 40), SpriteEffects.None, 0);
+                spriteBatch.DrawString(GameOverTextLarge, "FAIL", new Vector2(failPos, 25), Color.Black);
                 if (failString == null)
                 {
                     failString = "You have been ";
-                    failString += deathStrings[deathStringRandomizer.Next(0, deathStrings.Count() - 1)] + " by";
+                    failString += deathStrings[deathStringRandomizer.Next(0, deathStrings.Count())] + " by:";
                 }
-                spriteBatch.DrawString(GameOverTextSmall, failString, new Vector2(100, 200), Color.White);
+
+                // Center fail string
+                Vector2 failStringLength = GameOverTextSmall.MeasureString(failString);
+                float failStringPos = (myGraphicsDevice.Viewport.Width/2) - (failStringLength.X / 2);
+                spriteBatch.DrawString(GameOverTextSmall, failString, new Vector2(failStringPos, 200), Color.White);
+
+                float failObjPos = (myGraphicsDevice.Viewport.Width / 2) - (myCollidedSprite.boundingBox.Width / 2);
+                spriteBatch.Draw(myCollidedSprite.getTexture(), new Vector2(failObjPos, 280), null, myCollidedSprite.color, 0f, Vector2.Zero, myCollidedSprite.scale, SpriteEffects.None, 0f);
+                spriteBatch.DrawString(GameOverTextSmall, "Push Start to restart", new Vector2(225, 380), Color.White);
             }
 
             else

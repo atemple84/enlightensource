@@ -20,6 +20,7 @@ namespace NDE
         private Vector2 myStartingPosition = Vector2.Zero;
         private KeyboardState myPrevKeyboardState;
         private GamePadState myPrevGamePadState;
+        state myCurrentState;
 
         public event ChangedEventHandler Changed;
 
@@ -28,14 +29,24 @@ namespace NDE
             STANDING,
             JUMPING
         }
-        state myCurrentState = state.STANDING;
 
         public PlayerSprite(PlayerIndex index)
+            : base("little guy")
         {
             myPlayerIndex = index;
-            scale = 0.088f;
-            spriteName = "little guy";
+        }
+
+        public override void LoadContent(ContentManager theContentManager)
+        {
+            base.LoadContent(theContentManager);
             position = new Vector2(80, 250);
+            scale = 0.088f;
+            myCurrentState = state.STANDING;
+        }
+
+        public PlayerIndex getPlayerIndex()
+        {
+            return myPlayerIndex;
         }
 
         public override void Update(GameTime theGameTime, ContentManager theContent)

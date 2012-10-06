@@ -153,7 +153,7 @@ namespace NDE
                     }
                     break;
                 case State.RUNNING:
-                    if (currentKeyboardState.IsKeyDown(Keys.P) || currentGamePadState.IsButtonDown(Buttons.Start))
+                    if (currentLevel.runningState != CompletionState.dead && (currentKeyboardState.IsKeyDown(Keys.P) || currentGamePadState.IsButtonDown(Buttons.Start)))
                         gameState = State.PAUSE;
                     else
                     {

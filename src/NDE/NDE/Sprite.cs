@@ -13,14 +13,14 @@ namespace NDE
         protected const int MOVE_UP = -1, MOVE_DOWN = 1, MOVE_LEFT = -1, MOVE_RIGHT = 1;
 
         // Sprite properties
-        public Vector2 position = new Vector2(0, 0);
-        public float scale = 1.0f;
-        public float rotation = 0f;
-        public float rotationSpeed = 0f;
-        public Color color = Color.White;
-        public bool repeat = true;
-        protected Vector2 mySpeed = Vector2.Zero;
-        public string spriteName;
+        public Vector2 position;
+        public float scale;
+        public float rotation;
+        public float rotationSpeed;
+        public Color color;
+        public bool repeat;
+        protected Vector2 mySpeed;
+        private string mySpriteName;
         protected Vector2 myCenter;
 
         // protected properties
@@ -28,12 +28,24 @@ namespace NDE
         protected int myViewportWidth;
         protected Vector2 myDirection = Vector2.Zero;
 
-        public void LoadContent(ContentManager theContentManager)
+        public Sprite(string spriteName)
         {
-            myTexture = theContentManager.Load<Texture2D>(spriteName);
+            mySpriteName = spriteName;
+        }
+
+        public virtual void LoadContent(ContentManager theContentManager)
+        {
+            myTexture = theContentManager.Load<Texture2D>(mySpriteName);
             int originX = myTexture.Width / 2;
             int originY = myTexture.Height / 2;
             myCenter = new Vector2(originX, originY);
+            position = Vector2.Zero;
+            rotation = 0f;
+            rotationSpeed = 0f;
+            scale = 1f;
+            color = Color.White;
+            repeat = true;
+            mySpeed = Vector2.Zero;
         }
 
         public Rectangle boundingBox

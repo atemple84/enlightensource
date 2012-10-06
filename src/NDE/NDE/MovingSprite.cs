@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 
 namespace NDE
 {
-    enum collisionType
+    enum collisionTypes
     {
         PLATFORM,
         OBSTACLE,
@@ -17,15 +18,27 @@ namespace NDE
     class MovingSprite : Sprite
     {
         public event ChangedEventHandler Changed;
-        public collisionType myCollisionType = collisionType.PLATFORM;
-        private bool inCollisionDetection = false;
+        private collisionTypes myCollisionType;
+        private bool inCollisionDetection;
 
-        public MovingSprite(int viewportWidth, collisionType theCollisionType)
+        public MovingSprite(string spriteName, int viewportWidth, collisionTypes theCollisionType)
+            : base(spriteName)
         {
             myViewportWidth = viewportWidth;
             myCollisionType = theCollisionType;
         }
 
+        public collisionTypes getCollisionType()
+        {
+            return myCollisionType;
+        }
+
+        public override void LoadContent(ContentManager theContentManager)
+        {
+            base.LoadContent(theContentManager);
+            Changed = null;
+            inCollisionDetection = false;
+        }
         public void setSpeed(Vector2 speed)
         {
             mySpeed = speed;
@@ -35,7 +48,7 @@ namespace NDE
 
         protected override void detectCollision()
         {
-            if (myCollisionType == collisionType.BACKGROUND)
+            if (myCollisionType == collisionTypes.BACKGROUND)
                 return;
             else
             {
