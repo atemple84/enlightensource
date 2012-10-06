@@ -35,7 +35,7 @@ namespace NDE
             myPlayerIndex = index;
             scale = 0.088f;
             spriteName = "little guy";
-            position = new Vector2(50, 200);
+            position = new Vector2(80, 250);
         }
 
         public override void Update(GameTime theGameTime, ContentManager theContent)
@@ -104,7 +104,7 @@ namespace NDE
             float curFeetPosition = boundingBox.Bottom;
             if(curFeetPosition > Game1.bottomPoint.Y)
             {
-                position.Y = Game1.bottomPoint.Y - boundingBox.Height;
+                position.Y = Game1.bottomPoint.Y - (myCenter.Y * scale);
                 myCurrentState = state.STANDING;
                 myDirection = Vector2.Zero;
             }

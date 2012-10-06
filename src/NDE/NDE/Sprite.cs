@@ -21,7 +21,7 @@ namespace NDE
         public bool repeat = true;
         protected Vector2 mySpeed = Vector2.Zero;
         public string spriteName;
-        private Vector2 myCenter;
+        protected Vector2 myCenter;
 
         // protected properties
         protected Texture2D myTexture;
@@ -40,7 +40,7 @@ namespace NDE
         {
             get
             {
-                return new Rectangle((int)position.X, (int)position.Y, (int)(myTexture.Width * scale), (int)(myTexture.Height * scale));
+                return new Rectangle((int)(position.X - (myCenter.X * scale)), (int)(position.Y - (myCenter.Y * scale)), (int)(myTexture.Width * scale), (int)(myTexture.Height * scale));
             }
         }
 
@@ -57,8 +57,8 @@ namespace NDE
         public virtual void Update(GameTime gametime, ContentManager theContent)
         {
             position += myDirection * mySpeed * (float)gametime.ElapsedGameTime.TotalSeconds;
-            if (repeat && boundingBox.Center.X < 0)
-                position.X = myViewportWidth + boundingBox.Right;
+            if (repeat && boundingBox.Right < 0)
+                position.X = myViewportWidth + (myCenter.X * scale);
 
             rotation += rotationSpeed;
             rotation = rotation % (MathHelper.Pi * 2);

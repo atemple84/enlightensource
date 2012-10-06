@@ -183,7 +183,7 @@ namespace NDE
                 foreach (Sprite curPlatform in myLevelSprites)
                     spriteBatch.Draw(curPlatform.getTexture(), curPlatform.position, null, curPlatform.color, curPlatform.rotation, curPlatform.center(), curPlatform.scale, SpriteEffects.None, 0f);
                 foreach (PlayerSprite curPlayer in playerList.list())
-                    spriteBatch.Draw(curPlayer.getTexture(), curPlayer.position, null, curPlayer.color, curPlayer.rotation, Vector2.Zero, curPlayer.scale, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(curPlayer.getTexture(), curPlayer.position, null, curPlayer.color, curPlayer.rotation, curPlayer.center(), curPlayer.scale, SpriteEffects.None, 0f);
 
                 // Draw any extra borders, etc.
                 spriteBatch.Draw(myBlankTexture, Game1.bottomPoint, null, Color.Black, 0, Vector2.Zero, new Vector2(myGraphicsDevice.Viewport.Width, 1), SpriteEffects.None, 0);
