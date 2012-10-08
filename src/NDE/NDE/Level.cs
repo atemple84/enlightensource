@@ -47,8 +47,9 @@ namespace NDE
         private Random deathStringRandomizer = new Random();
         private string failString;
         private PlayerSprite myPlayer;
-        private List<MovingSprite> collisionSprites = new List<MovingSprite>();
+        public event ChangedEventHandler loadingSignal;
 
+        private List<MovingSprite> collisionSprites = new List<MovingSprite>();
         private MovingSprite myCollidedSprite;
 
         /// <summary>
@@ -82,6 +83,10 @@ namespace NDE
             myContent = theContent;
             GameOverTextLarge = myContent.Load<SpriteFont>("Fixedsys_large");
             GameOverTextSmall = myContent.Load<SpriteFont>("Fixedsys_small");
+
+            // Emit signal to let the game know to start loading video
+            if (loadingSignal != null)
+                loadingSignal(this, true);
             Thread loadLevelThread = new Thread(LoadingThread);
             loadLevelThread.Start();
         }

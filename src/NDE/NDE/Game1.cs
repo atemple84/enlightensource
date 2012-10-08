@@ -62,6 +62,9 @@ namespace NDE
         
         // For generic text writing
         SpriteFont normalText;
+        SpriteFont myStartText;
+        private float myStartScale = 0.8f;
+        private float myStartScaleIncrement  = 0.002f;
 
         static public Vector2 bottomPoint;
         Level currentLevel;
@@ -103,6 +106,7 @@ namespace NDE
             vPlayer.Play(titleVideo);
 
             normalText = Content.Load<SpriteFont>("NormalText");
+            myStartText = Content.Load<SpriteFont>("Impact");
             bottomPoint = new Vector2(0, GraphicsDevice.Viewport.Height - 20);
             myBlankTexture = new Texture2D(GraphicsDevice, 1, 1);
             myBlankTexture.SetData(new[] { Color.White });
@@ -145,6 +149,12 @@ namespace NDE
                         checkButtonSequence(currentKeyboardState, previousKeyboardState, currentGamePadState, previousGamePadState);
                     }
 
+                    if (myStartScale >= 1)
+                        myStartScaleIncrement = -0.002f;
+                    else if (myStartScale <= 0.8)
+                        myStartScaleIncrement = 0.002f;
+                    myStartScale += myStartScaleIncrement;
+
                     if (currentKeyboardState.IsKeyDown(Keys.Enter) || currentGamePadState.IsButtonDown(Buttons.Start))
                     {
                         // Initialize all the levels
@@ -153,7 +163,7 @@ namespace NDE
                     }
                     break;
                 case State.RUNNING:
-                    if (currentLevel.runningState != CompletionState.dead && (currentKeyboardState.IsKeyDown(Keys.P) || currentGamePadState.IsButtonDown(Buttons.Start)))
+                    if (currentLevel != null && currentLevel.runningState != CompletionState.dead && (currentKeyboardState.IsKeyDown(Keys.P) || currentGamePadState.IsButtonDown(Buttons.Start)))
                         gameState = State.PAUSE;
                     else
                     {
@@ -290,6 +300,11 @@ namespace NDE
                     Vector2 v1 = new Vector2(200, 300);
                     spriteBatch.DrawString(normalText, "Loading Level...", v1, Color.White);
                 }
+                else
+                {
+                    Vector2 v1 = new Vector2(490, 250);
+                    spriteBatch.DrawString(myStartText, "START", v1, Color.White, 0f, Vector2.Zero, myStartScale, SpriteEffects.None, 0f);
+                }
             }
             else
             {
@@ -314,8 +329,8 @@ namespace NDE
             currentLevel = null;
             if (isdeveloper)
             {
-                vPlayer.Pause();
                 currentLevel = new Level(GraphicsDevice, "dummyLevel");
+                currentLevel.loadingSignal += new ChangedEventHandler(startLoadingScreen);
                 currentLevel.LoadLevel(Content, PlayerIndex.One);
                 return;
             }
@@ -336,6 +351,7 @@ namespace NDE
                 if (File.Exists(Content.RootDirectory + "/levels/" + curLevelName))
                 {
                     nextLevel = new Level(GraphicsDevice, curLevelName);
+                    nextLevel.loadingSignal += new ChangedEventHandler(startLoadingScreen);
                     if (currentLevel == null)
                         currentLevel = previousLevel = nextLevel;
                     else
@@ -348,6 +364,14 @@ namespace NDE
 
             if (currentLevel != null)
                 currentLevel.LoadLevel(Content, PlayerIndex.One);
+        }
+
+        private void startLoadingScreen(object sender, bool notUsed)
+        {
+            vPlayer.Stop();
+            titleVideo = Content.Load<Video>("loading_movie");
+            vPlayer.IsLooped = true;
+            vPlayer.Play(titleVideo);
         }
     }
 }
