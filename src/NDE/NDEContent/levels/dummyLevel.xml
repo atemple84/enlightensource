@@ -13,28 +13,31 @@
         <repeat>true</repeat>
         <rotation>0</rotation>
         <rotationSpeed>0</rotationSpeed>
-      </Item>
-      <Item>
-        <textureName>sun glow</textureName>
-        <obstacleType>BACKGROUND</obstacleType>
-        <scale>0.2</scale>
-        <color>FFFFFFFF</color>
-        <position>600 85</position>
-        <gameSpeed>80 0</gameSpeed>
-        <repeat>true</repeat>
-        <rotation>0</rotation>
-        <rotationSpeed>0</rotationSpeed>
+        <rotationDirection>1</rotationDirection>
       </Item>
       <Item>
         <textureName>sun</textureName>
         <obstacleType>BACKGROUND</obstacleType>
-        <scale>0.2</scale>
+        <scale>0.35</scale>
         <color>FFFFFFFF</color>
         <position>600 85</position>
         <gameSpeed>80 0</gameSpeed>
         <repeat>true</repeat>
         <rotation>0</rotation>
         <rotationSpeed>0</rotationSpeed>
+        <rotationDirection>1</rotationDirection>
+      </Item>
+      <Item>
+        <textureName>sun glow</textureName>
+        <obstacleType>BACKGROUND</obstacleType>
+        <scale>0.35</scale>
+        <color>FFFFFFFF</color>
+        <position>600 85</position>
+        <gameSpeed>80 0</gameSpeed>
+        <repeat>true</repeat>
+        <rotation>0</rotation>
+        <rotationSpeed>0</rotationSpeed>
+        <rotationDirection>1</rotationDirection>
       </Item>
       <Item>
         <textureName>cloud 3</textureName>
@@ -46,6 +49,7 @@
         <repeat>true</repeat>
         <rotation>0</rotation>
         <rotationSpeed>0</rotationSpeed>
+        <rotationDirection>1</rotationDirection>
       </Item>
       <Item>
         <textureName>top cloud</textureName>
@@ -57,6 +61,7 @@
         <repeat>true</repeat>
         <rotation>0</rotation>
         <rotationSpeed>0</rotationSpeed>
+        <rotationDirection>1</rotationDirection>
       </Item>
       <Item>
         <textureName>top cloud</textureName>
@@ -68,6 +73,7 @@
         <repeat>true</repeat>
         <rotation>0</rotation>
         <rotationSpeed>0</rotationSpeed>
+        <rotationDirection>1</rotationDirection>
       </Item>
       <Item>
         <textureName>platform</textureName>
@@ -79,6 +85,7 @@
         <repeat>true</repeat>
         <rotation>0</rotation>
         <rotationSpeed>0</rotationSpeed>
+        <rotationDirection>1</rotationDirection>
       </Item>
       <Item>
         <textureName>LOL</textureName>
@@ -90,6 +97,7 @@
         <repeat>true</repeat>
         <rotation>0</rotation>
         <rotationSpeed>0.02</rotationSpeed>
+        <rotationDirection>-1</rotationDirection>
       </Item>
     </sprites>
   </Asset>

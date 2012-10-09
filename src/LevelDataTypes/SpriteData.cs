@@ -24,5 +24,6 @@ namespace LevelDataTypes
         public bool repeat = true;
         public float rotation = 0f;
         public float rotationSpeed = 0f;
+        public float rotationDirection = 1f;
     }
 }

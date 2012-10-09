@@ -66,25 +66,23 @@ namespace LevelEditor
             dummyBackground.gameSpeed = Vector2.Zero;
             dummyData.sprites.Add(dummyBackground);
 
-
-            SpriteData dummySunGlow = new SpriteData();
-            dummySunGlow.obstacleType = collisionType.BACKGROUND;
-            dummySunGlow.textureName = "sun glow";
-            dummySunGlow.scale = 0.2f;
-            dummySunGlow.color = Color.White;
-            dummySunGlow.position = new Vector2(600, 85);
-            dummySunGlow.gameSpeed = new Vector2(80, 0);
-            dummyData.sprites.Add(dummySunGlow);
-
-
             SpriteData dummySun = new SpriteData();
             dummySun.obstacleType = collisionType.BACKGROUND;
             dummySun.textureName = "sun";
-            dummySun.scale = 0.2f;
+            dummySun.scale = 0.35f;
             dummySun.color = Color.White;
             dummySun.position = new Vector2(600, 85);
             dummySun.gameSpeed = new Vector2(80, 0);
             dummyData.sprites.Add(dummySun);
+
+            SpriteData dummySunGlow = new SpriteData();
+            dummySunGlow.obstacleType = collisionType.BACKGROUND;
+            dummySunGlow.textureName = "sun glow";
+            dummySunGlow.scale = 0.35f;
+            dummySunGlow.color = Color.White;
+            dummySunGlow.position = new Vector2(600, 85);
+            dummySunGlow.gameSpeed = new Vector2(80, 0);
+            dummyData.sprites.Add(dummySunGlow);
 
             SpriteData dummyCloud = new SpriteData();
             dummyCloud.obstacleType = collisionType.BACKGROUND;
@@ -145,6 +143,7 @@ namespace LevelEditor
             dummyObstacle.color = Color.Red;
             dummyObstacle.position = new Vector2(175, 165);
             dummyObstacle.rotationSpeed = 0.02f;
+            dummyObstacle.rotationDirection = -1f;
             dummyData.sprites.Add(dummyObstacle);
 
             return dummyData;

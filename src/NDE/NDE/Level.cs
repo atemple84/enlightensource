@@ -116,6 +116,7 @@ namespace NDE
                     dummySprite.setSpeed(curSprite.gameSpeed);
                     dummySprite.rotation = curSprite.rotation;
                     dummySprite.rotationSpeed = curSprite.rotationSpeed;
+                    dummySprite.rotationDirection = curSprite.rotationDirection;
                     dummySprite.Changed += new ChangedEventHandler(catchCollisionPhase);
 
                     // ****** TEMPORARY!!! Until proper collision detection is implemented ******* /

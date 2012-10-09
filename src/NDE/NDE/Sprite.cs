@@ -17,6 +17,7 @@ namespace NDE
         public float scale;
         public float rotation;
         public float rotationSpeed;
+        public float rotationDirection;
         public Color color;
         public bool repeat;
         protected Vector2 mySpeed;
@@ -42,6 +43,7 @@ namespace NDE
             position = Vector2.Zero;
             rotation = 0f;
             rotationSpeed = 0f;
+            rotationDirection = 1f;
             scale = 1f;
             color = Color.White;
             repeat = true;
@@ -72,7 +74,7 @@ namespace NDE
             if (repeat && boundingBox.Right < 0)
                 position.X = myViewportWidth + (myCenter.X * scale);
 
-            rotation -= rotationSpeed;
+            rotation += (rotationSpeed * rotationDirection);
             rotation = rotation % (MathHelper.Pi * 2);
             detectCollision();
         }

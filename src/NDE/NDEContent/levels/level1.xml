@@ -13,6 +13,7 @@
         <repeat>false</repeat>
         <rotation>0</rotation>
         <rotationSpeed>0</rotationSpeed>
+        <rotationDirection>1</rotationDirection>
       </Item>
       <Item>
         <textureName>platform</textureName>
@@ -24,6 +25,7 @@
         <repeat>false</repeat>
         <rotation>0</rotation>
         <rotationSpeed>0</rotationSpeed>
+        <rotationDirection>1</rotationDirection>
       </Item>
       <Item>
         <textureName>platform</textureName>
@@ -35,6 +37,7 @@
         <repeat>false</repeat>
         <rotation>0</rotation>
         <rotationSpeed>0</rotationSpeed>
+        <rotationDirection>1</rotationDirection>
       </Item>
       <Item>
         <textureName>pin wheel</textureName>
@@ -46,6 +49,7 @@
         <repeat>false</repeat>
         <rotation>0</rotation>
         <rotationSpeed>0.02</rotationSpeed>
+        <rotationDirection>1</rotationDirection>
       </Item>
       <Item>
         <textureName>pin</textureName>
@@ -57,6 +61,7 @@
         <repeat>false</repeat>
         <rotation>0</rotation>
         <rotationSpeed>0</rotationSpeed>
+        <rotationDirection>1</rotationDirection>
       </Item>
     </sprites>
   </Asset>
