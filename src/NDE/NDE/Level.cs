@@ -197,8 +197,8 @@ namespace NDE
                 myGraphicsDevice.Clear(Color.Black);
                 Vector2 failLength = GameOverTextLarge.MeasureString("FAIL");
                 float failPos = (myGraphicsDevice.Viewport.Width / 2) - (failLength.X / 2);
-                spriteBatch.Draw(myBlankTexture, new Vector2(failPos, 40), null, Color.White, 0, Vector2.Zero, new Vector2(failLength.X, failLength.Y - 40), SpriteEffects.None, 0);
-                spriteBatch.DrawString(GameOverTextLarge, "FAIL", new Vector2(failPos, 25), Color.Black);
+                spriteBatch.Draw(myBlankTexture, new Vector2(failPos, 5), null, Color.White, 0, Vector2.Zero, new Vector2(failLength.X, failLength.Y - 60), SpriteEffects.None, 0);
+                spriteBatch.DrawString(GameOverTextLarge, "FAIL", new Vector2(failPos, -15), Color.Black);
                 if (failString == null)
                 {
                     failString = "You have been ";
@@ -208,11 +208,11 @@ namespace NDE
                 // Center fail string
                 Vector2 failStringLength = GameOverTextSmall.MeasureString(failString);
                 float failStringPos = (myGraphicsDevice.Viewport.Width/2) - (failStringLength.X / 2);
-                spriteBatch.DrawString(GameOverTextSmall, failString, new Vector2(failStringPos, 200), Color.White);
+                spriteBatch.DrawString(GameOverTextSmall, failString, new Vector2(failStringPos, 140), Color.White);
 
                 float failObjPos = (myGraphicsDevice.Viewport.Width / 2) - (myCollidedSprite.boundingBox.Width / 2);
-                spriteBatch.Draw(myCollidedSprite.getTexture(), new Vector2(failObjPos, 280), null, myCollidedSprite.color, 0f, Vector2.Zero, myCollidedSprite.scale, SpriteEffects.None, 0f);
-                spriteBatch.DrawString(GameOverTextSmall, "Push Start to restart", new Vector2(225, 380), Color.White);
+                spriteBatch.Draw(myCollidedSprite.getTexture(), new Vector2(failObjPos, 180), null, myCollidedSprite.color, 0f, Vector2.Zero, myCollidedSprite.scale, SpriteEffects.None, 0f);
+                spriteBatch.DrawString(GameOverTextSmall, "Push Start to restart", new Vector2(225, 410), Color.White);
             }
 
             else

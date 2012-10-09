@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent>
+  <Asset Type="LevelDataTypes.LevelData">
+    <levelName>level1</levelName>
+    <sprites>
+      <Item>
+        <textureName>platform</textureName>
+        <obstacleType>PLATFORM</obstacleType>
+        <scale>1</scale>
+        <color>FFFFFFFF</color>
+        <position>1000 400</position>
+        <gameSpeed>300 300</gameSpeed>
+        <repeat>false</repeat>
+        <rotation>0</rotation>
+        <rotationSpeed>0</rotationSpeed>
+      </Item>
+      <Item>
+        <textureName>platform</textureName>
+        <obstacleType>PLATFORM</obstacleType>
+        <scale>1</scale>
+        <color>FFFFFFFF</color>
+        <position>1100 320</position>
+        <gameSpeed>300 300</gameSpeed>
+        <repeat>false</repeat>
+        <rotation>0</rotation>
+        <rotationSpeed>0</rotationSpeed>
+      </Item>
+      <Item>
+        <textureName>platform</textureName>
+        <obstacleType>PLATFORM</obstacleType>
+        <scale>1</scale>
+        <color>FFFFFFFF</color>
+        <position>1250 320</position>
+        <gameSpeed>300 300</gameSpeed>
+        <repeat>false</repeat>
+        <rotation>0</rotation>
+        <rotationSpeed>0</rotationSpeed>
+      </Item>
+      <Item>
+        <textureName>pin wheel</textureName>
+        <obstacleType>OBSTACLE</obstacleType>
+        <scale>0.4</scale>
+        <color>FFFFFFFF</color>
+        <position>1700 350</position>
+        <gameSpeed>300 300</gameSpeed>
+        <repeat>false</repeat>
+        <rotation>0</rotation>
+        <rotationSpeed>0.02</rotationSpeed>
+      </Item>
+      <Item>
+        <textureName>pin</textureName>
+        <obstacleType>OBSTACLE</obstacleType>
+        <scale>0.4</scale>
+        <color>FFFFFFFF</color>
+        <position>1700 350</position>
+        <gameSpeed>300 300</gameSpeed>
+        <repeat>false</repeat>
+        <rotation>0</rotation>
+        <rotationSpeed>0</rotationSpeed>
+      </Item>
+    </sprites>
+  </Asset>
+</XnaContent>

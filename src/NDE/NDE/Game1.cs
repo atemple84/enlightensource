@@ -50,6 +50,7 @@ namespace NDE
         // Video variables
         VideoPlayer vPlayer;
         Video titleVideo;
+        Video loadingVideo;
 
         // Keyboard states used to determine key presses
         KeyboardState currentKeyboardState;
@@ -101,6 +102,7 @@ namespace NDE
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             titleVideo = Content.Load<Video>("start_menu");
+            loadingVideo = Content.Load<Video>("loading_movie");
             vPlayer = new VideoPlayer();
             vPlayer.IsLooped = true;
             vPlayer.Play(titleVideo);
@@ -302,8 +304,9 @@ namespace NDE
                 }
                 else
                 {
-                    Vector2 v1 = new Vector2(490, 250);
-                    spriteBatch.DrawString(myStartText, "START", v1, Color.White, 0f, Vector2.Zero, myStartScale, SpriteEffects.None, 0f);
+                    Vector2 v1 = new Vector2(560, 300);
+                    Vector2 StartSize = myStartText.MeasureString("START");
+                    spriteBatch.DrawString(myStartText, "START", v1, Color.White, 0f, new Vector2(StartSize.X / 2, StartSize.Y / 2), myStartScale, SpriteEffects.None, 0f);
                 }
             }
             else
@@ -338,7 +341,7 @@ namespace NDE
             // parse directory of levels
             int i = 1;
             Level previousLevel = null;
-            while (i <= Directory.GetFiles(Content.RootDirectory + "/levels", "level*.xml").Length)
+            while (i <= Directory.GetFiles(Content.RootDirectory + "//levels//", "level*.xnb").Length)
             {
                 Level nextLevel;
 
@@ -348,7 +351,7 @@ namespace NDE
 
                 // Check for the next level
                 string curLevelName = "level" + i;
-                if (File.Exists(Content.RootDirectory + "/levels/" + curLevelName))
+                if (File.Exists(Content.RootDirectory + "//levels//" + curLevelName + ".xnb"))
                 {
                     nextLevel = new Level(GraphicsDevice, curLevelName);
                     nextLevel.loadingSignal += new ChangedEventHandler(startLoadingScreen);
@@ -369,9 +372,7 @@ namespace NDE
         private void startLoadingScreen(object sender, bool notUsed)
         {
             vPlayer.Stop();
-            titleVideo = Content.Load<Video>("loading_movie");
-            vPlayer.IsLooped = true;
-            vPlayer.Play(titleVideo);
+            vPlayer.Play(loadingVideo);
         }
     }
 }

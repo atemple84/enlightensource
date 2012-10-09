@@ -72,7 +72,7 @@ namespace NDE
             if (repeat && boundingBox.Right < 0)
                 position.X = myViewportWidth + (myCenter.X * scale);
 
-            rotation += rotationSpeed;
+            rotation -= rotationSpeed;
             rotation = rotation % (MathHelper.Pi * 2);
             detectCollision();
         }
