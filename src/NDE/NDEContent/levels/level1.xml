@@ -40,11 +40,71 @@
         <rotationDirection>1</rotationDirection>
       </Item>
       <Item>
+        <textureName>platform</textureName>
+        <obstacleType>PLATFORM</obstacleType>
+        <scale>1</scale>
+        <color>FFFFFFFF</color>
+        <position>1350 240</position>
+        <gameSpeed>300 300</gameSpeed>
+        <repeat>false</repeat>
+        <rotation>0</rotation>
+        <rotationSpeed>0</rotationSpeed>
+        <rotationDirection>1</rotationDirection>
+      </Item>
+      <Item>
+        <textureName>platform</textureName>
+        <obstacleType>PLATFORM</obstacleType>
+        <scale>1</scale>
+        <color>FFFFFFFF</color>
+        <position>1450 160</position>
+        <gameSpeed>300 300</gameSpeed>
+        <repeat>false</repeat>
+        <rotation>0</rotation>
+        <rotationSpeed>0</rotationSpeed>
+        <rotationDirection>1</rotationDirection>
+      </Item>
+      <Item>
+        <textureName>platform</textureName>
+        <obstacleType>PLATFORM</obstacleType>
+        <scale>1</scale>
+        <color>FFFFFFFF</color>
+        <position>1600 220</position>
+        <gameSpeed>300 300</gameSpeed>
+        <repeat>false</repeat>
+        <rotation>0</rotation>
+        <rotationSpeed>0</rotationSpeed>
+        <rotationDirection>1</rotationDirection>
+      </Item>
+      <Item>
+        <textureName>platform</textureName>
+        <obstacleType>PLATFORM</obstacleType>
+        <scale>1</scale>
+        <color>FFFFFFFF</color>
+        <position>1750 280</position>
+        <gameSpeed>300 300</gameSpeed>
+        <repeat>false</repeat>
+        <rotation>0</rotation>
+        <rotationSpeed>0</rotationSpeed>
+        <rotationDirection>1</rotationDirection>
+      </Item>
+      <Item>
+        <textureName>platform</textureName>
+        <obstacleType>PLATFORM</obstacleType>
+        <scale>1</scale>
+        <color>FFFFFFFF</color>
+        <position>1900 340</position>
+        <gameSpeed>300 300</gameSpeed>
+        <repeat>false</repeat>
+        <rotation>0</rotation>
+        <rotationSpeed>0</rotationSpeed>
+        <rotationDirection>1</rotationDirection>
+      </Item>
+      <Item>
         <textureName>pin wheel</textureName>
         <obstacleType>OBSTACLE</obstacleType>
         <scale>0.4</scale>
         <color>FFFFFFFF</color>
-        <position>1700 350</position>
+        <position>2080 350</position>
         <gameSpeed>300 300</gameSpeed>
         <repeat>false</repeat>
         <rotation>0</rotation>
@@ -56,7 +116,7 @@
         <obstacleType>OBSTACLE</obstacleType>
         <scale>0.4</scale>
         <color>FFFFFFFF</color>
-        <position>1700 350</position>
+        <position>2080 350</position>
         <gameSpeed>300 300</gameSpeed>
         <repeat>false</repeat>
         <rotation>0</rotation>
