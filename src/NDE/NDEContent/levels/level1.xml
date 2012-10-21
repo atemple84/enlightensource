@@ -4,6 +4,126 @@
     <levelName>level1</levelName>
     <sprites>
       <Item>
+        <textureName>hill back</textureName>
+        <obstacleType>BACKGROUND</obstacleType>
+        <scale>0.5</scale>
+        <color>FFFFFFFF</color>
+        <position>100 500</position>
+        <gameSpeed>50 0</gameSpeed>
+        <repeat>true</repeat>
+        <rotation>0</rotation>
+        <rotationSpeed>0</rotationSpeed>
+        <rotationDirection>1</rotationDirection>
+      </Item>
+      <Item>
+        <textureName>hill back</textureName>
+        <obstacleType>BACKGROUND</obstacleType>
+        <scale>0.5</scale>
+        <color>FFFFFFFF</color>
+        <position>250 400</position>
+        <gameSpeed>50 0</gameSpeed>
+        <repeat>true</repeat>
+        <rotation>0</rotation>
+        <rotationSpeed>0</rotationSpeed>
+        <rotationDirection>1</rotationDirection>
+      </Item>
+      <Item>
+        <textureName>hill back</textureName>
+        <obstacleType>BACKGROUND</obstacleType>
+        <scale>0.5</scale>
+        <color>FFFFFFFF</color>
+        <position>400 550</position>
+        <gameSpeed>50 0</gameSpeed>
+        <repeat>true</repeat>
+        <rotation>0</rotation>
+        <rotationSpeed>0</rotationSpeed>
+        <rotationDirection>1</rotationDirection>
+      </Item>
+      <Item>
+        <textureName>hill back</textureName>
+        <obstacleType>BACKGROUND</obstacleType>
+        <scale>0.5</scale>
+        <color>FFFFFFFF</color>
+        <position>550 300</position>
+        <gameSpeed>50 0</gameSpeed>
+        <repeat>true</repeat>
+        <rotation>0</rotation>
+        <rotationSpeed>0</rotationSpeed>
+        <rotationDirection>1</rotationDirection>
+      </Item>
+      <Item>
+        <textureName>hill back</textureName>
+        <obstacleType>BACKGROUND</obstacleType>
+        <scale>0.5</scale>
+        <color>FFFFFFFF</color>
+        <position>700 450</position>
+        <gameSpeed>50 0</gameSpeed>
+        <repeat>true</repeat>
+        <rotation>0</rotation>
+        <rotationSpeed>0</rotationSpeed>
+        <rotationDirection>1</rotationDirection>
+      </Item>
+      <Item>
+        <textureName>hill back</textureName>
+        <obstacleType>BACKGROUND</obstacleType>
+        <scale>0.5</scale>
+        <color>FFFFFFFF</color>
+        <position>850 400</position>
+        <gameSpeed>50 0</gameSpeed>
+        <repeat>true</repeat>
+        <rotation>0</rotation>
+        <rotationSpeed>0</rotationSpeed>
+        <rotationDirection>1</rotationDirection>
+      </Item>
+      <Item>
+        <textureName>hill back</textureName>
+        <obstacleType>BACKGROUND</obstacleType>
+        <scale>0.5</scale>
+        <color>FFFFFFFF</color>
+        <position>1000 550</position>
+        <gameSpeed>50 0</gameSpeed>
+        <repeat>true</repeat>
+        <rotation>0</rotation>
+        <rotationSpeed>0</rotationSpeed>
+        <rotationDirection>1</rotationDirection>
+      </Item>
+      <Item>
+        <textureName>sun</textureName>
+        <obstacleType>BACKGROUND</obstacleType>
+        <scale>0.35</scale>
+        <color>FFFFFFFF</color>
+        <position>800 85</position>
+        <gameSpeed>35 0</gameSpeed>
+        <repeat>true</repeat>
+        <rotation>0</rotation>
+        <rotationSpeed>0</rotationSpeed>
+        <rotationDirection>1</rotationDirection>
+      </Item>
+      <Item>
+        <textureName>sun glow</textureName>
+        <obstacleType>BACKGROUND</obstacleType>
+        <scale>0.35</scale>
+        <color>FFFFFFFF</color>
+        <position>800 85</position>
+        <gameSpeed>35 0</gameSpeed>
+        <repeat>true</repeat>
+        <rotation>0</rotation>
+        <rotationSpeed>0</rotationSpeed>
+        <rotationDirection>1</rotationDirection>
+      </Item>
+      <Item>
+        <textureName>rainbow</textureName>
+        <obstacleType>BACKGROUND</obstacleType>
+        <scale>0.65</scale>
+        <color>FFFFFFFF</color>
+        <position>400 200</position>
+        <gameSpeed>0 0</gameSpeed>
+        <repeat>true</repeat>
+        <rotation>0</rotation>
+        <rotationSpeed>0</rotationSpeed>
+        <rotationDirection>1</rotationDirection>
+      </Item>
+      <Item>
         <textureName>platform</textureName>
         <obstacleType>PLATFORM</obstacleType>
         <scale>1</scale>
