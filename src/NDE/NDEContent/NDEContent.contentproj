@@ -125,11 +125,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="background_blue.png">
-      <Name>background_blue</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="cloud 3.png">
       <Name>cloud 3</Name>
       <Importer>TextureImporter</Importer>
@@ -278,6 +273,13 @@
   <ItemGroup>
     <Compile Include="rainbow.png">
       <Name>rainbow</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="backgroundnewstars.png">
+      <Name>backgroundnewstars</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

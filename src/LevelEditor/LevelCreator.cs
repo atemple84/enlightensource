@@ -15,8 +15,17 @@ namespace LevelEditor
             LevelData levelData = new LevelData();
             levelData.levelName = "level" + level;
 
-            // 1 background hill
+            // main background
             SpriteData newSprite = new SpriteData();
+            newSprite.obstacleType = collisionType.BACKGROUND;
+            newSprite.textureName = "backgroundnewstars";
+            newSprite.color = Color.White;
+            newSprite.position = new Vector2(512, 384);
+            newSprite.gameSpeed = Vector2.Zero;
+            levelData.sprites.Add(newSprite);
+
+            // 1 background hill
+            newSprite = new SpriteData();
             newSprite.textureName = "hill back";
             newSprite.position = new Vector2(100, 500);
             newSprite.scale = 0.5f;

@@ -59,10 +59,9 @@ namespace LevelEditor
             // Create background(s)
             SpriteData dummyBackground = new SpriteData();
             dummyBackground.obstacleType = collisionType.BACKGROUND;
-            dummyBackground.textureName = "background_blue";
-            dummyBackground.scale = 0.26666666f;
+            dummyBackground.textureName = "backgroundnewstars";
             dummyBackground.color = Color.White;
-            dummyBackground.position = new Vector2(400, 246);
+            dummyBackground.position = new Vector2(512, 384);
             dummyBackground.gameSpeed = Vector2.Zero;
             dummyData.sprites.Add(dummyBackground);
 

@@ -4,6 +4,18 @@
     <levelName>level1</levelName>
     <sprites>
       <Item>
+        <textureName>backgroundnewstars</textureName>
+        <obstacleType>BACKGROUND</obstacleType>
+        <scale>1</scale>
+        <color>FFFFFFFF</color>
+        <position>512 384</position>
+        <gameSpeed>0 0</gameSpeed>
+        <repeat>true</repeat>
+        <rotation>0</rotation>
+        <rotationSpeed>0</rotationSpeed>
+        <rotationDirection>1</rotationDirection>
+      </Item>
+      <Item>
         <textureName>hill back</textureName>
         <obstacleType>BACKGROUND</obstacleType>
         <scale>0.5</scale>
